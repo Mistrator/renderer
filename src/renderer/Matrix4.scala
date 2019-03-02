@@ -11,15 +11,25 @@ class Matrix4(val m: Array[Array[Double]]) {
   def update(row: Int, col: Int, value: Double) = m(row)(col) = value
   
   // check pairwise equality for elements taking floating-point imprecisions into account
-  def equals(that: Matrix4) : Boolean = {
-    for (i <- 0 until size) {
-      for (j <- 0 until size) {
-        if (!Helpers.doubleEqual(m(i)(j), that(i)(j))) {
+  override def equals(that: Any) : Boolean = {
+    that match {
+      case that: Matrix4 => {
+        if (!that.isInstanceOf[Matrix4]) {
           return false
         }
+        
+        for (i <- 0 until size) {
+          for (j <- 0 until size) {
+            if (!Helpers.doubleEqual(m(i)(j), that(i)(j))) {
+              return false
+            }
+          }
+        }
+        
+        return true
       }
+      case _ => return false
     }
-    return true
   }
   
   def +(that: Matrix4) = Matrix4(Array.tabulate(size, size)((i, j) => m(i)(j) + that(i)(j)))
@@ -57,4 +67,5 @@ object Matrix4 {
   def apply(values: Array[Array[Double]]) = new Matrix4(values)
   
   def apply() = new Matrix4(Array.ofDim[Double](4, 4))
+  
 }

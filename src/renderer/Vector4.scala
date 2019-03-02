@@ -13,13 +13,23 @@ class Vector4(val v : Array[Double]) {
   
   def apply(i: Int) = v(i)
   
-  def equals(that: Vector4) : Boolean = {
-    for (i <- 0 until size) {
-      if (!Helpers.doubleEqual(v(i), that(i))) {
-        return false
+  override def equals(that: Any) : Boolean = {
+    that match {
+      case that: Vector4 => {
+        if (!that.isInstanceOf[Vector4]) {
+          return false
+        }
+        
+        for (i <- 0 until size) {
+          if (!Helpers.doubleEqual(v(i), that(i))) {
+            return false
+          }
+        }
+        
+        return true
       }
+      case _ => return false
     }
-    return true
   }
   
   def +(that: Vector4) = Vector4(this.x+that.x, this.y+that.y, this.z+that.z, this.w+that.w)
