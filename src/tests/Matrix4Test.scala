@@ -8,6 +8,24 @@ import renderer.Vector4
 
 class Matrix4Test {
   
+  @Test def matrixEquality() = {
+    val mat1 = Matrix4(Array(Array(3, 5, 6, 1), Array(2, 3, 5, 1), Array(9, 8, 3, 2), Array(5, 6, 3, 1)))
+    
+    assertEquals("matrix must equal itself", mat1, mat1)
+    
+    val mat2 = Matrix4(Array(Array(3, 5, 6, 2), Array(2, 3, 5, 1), Array(9, 8, 3, 2), Array(5, 6, 3, 1)))
+    
+    assertNotEquals("different matrices must not be equal" , mat1, mat2)
+    
+    val mat1SmallError = Matrix4(Array(Array(3 + 4e-10, 5, 6, 1), Array(2, 3, 5 + 1e-10, 1), Array(9, 8 + 1e-11, 3, 2), Array(5, 6, 3, 1)))
+    
+    assertEquals("small floating point imprecisions must be accepted", mat1, mat1SmallError)
+    
+    val mat1LargeError = Matrix4(Array(Array(3, 5, 6 + 1e-8, 1), Array(2, 3, 5, 1), Array(9, 8, 3, 2), Array(5, 6, 3, 1)))
+    
+    assertNotEquals("larger floating point imprecisions must not be accepted", mat1, mat1LargeError)
+  }
+  
   @Test def vectorMultiplication() = {
     val mat = Matrix4(Array(Array(5, 3, 2, 7), Array(2, 3, 9, 5), Array(1, 2, 9, 3), Array(5, 5, 3, 2)))
     val vec = Vector4(Array(2, 4, 3, 1))
