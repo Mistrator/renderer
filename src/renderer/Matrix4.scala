@@ -32,6 +32,14 @@ class Matrix4(val m: Array[Array[Double]]) {
     }
   }
   
+  def +(that: Double) = Matrix4(Array.tabulate(size, size)((i, j) => m(i)(j) + that))
+  
+  def -(that: Double) = Matrix4(Array.tabulate(size, size)((i, j) => m(i)(j) - that))
+  
+  def *(that: Double) = Matrix4(Array.tabulate(size, size)((i, j) => m(i)(j) * that))
+  
+  def /(that: Double) = Matrix4(Array.tabulate(size, size)((i, j) => m(i)(j) / that))
+  
   def +(that: Matrix4) = Matrix4(Array.tabulate(size, size)((i, j) => m(i)(j) + that(i)(j)))
   
   def -(that: Matrix4) = Matrix4(Array.tabulate(size, size)((i, j) => m(i)(j) - that(i)(j)))
