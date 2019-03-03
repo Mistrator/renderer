@@ -63,7 +63,7 @@ object Vector4 {
   
   def apply(x: Double, y: Double, z: Double, w: Double) = new Vector4(Array(x, y, z, w))
   
-  def apply(x: Double, y: Double, z: Double) = new Vector4(Array(x, y, x, 1.0))
+  def apply(x: Double, y: Double, z: Double) = new Vector4(Array(x, y, z, 1.0))
   
   def apply() = new Vector4(Array(0.0, 0.0, 0.0, 1.0))
 }
