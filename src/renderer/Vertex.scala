@@ -22,4 +22,7 @@ class Vertex(val position: Vector4, val color: Int) {
     
     return packed
   }
+  
+  def *(that: Matrix4) : Vertex = new Vertex(that * position, color)
+  
 }
