@@ -1,0 +1,12 @@
+12.3 väliraportti
+
+- toteutettu vektori- ja matriisiluokat ja niiden laskutoimitukset
+- luotu maailman mallintamisessa tarvittavat tietorakenteet: vertex, triangle, model, worldobject, world
+- alettu toteuttaa render pipelinea (toteutettu world matrixin konstruktio ja verteksien projektio clip spaceen olettaen, että view matrix ja projection matrix olisivat olemassa)
+
+- vektorien ja matriisien laskutoimituksilla on yksikkötestit
+- world matrixilla on yksinkertaiset yksikkötestit (kuvaako verteksin haluttuun paikkaan)
+
+- ei ole tullut varsinaisia hankalia virheitä
+
+- työmäärä noin 5-10h, ollaan aikataulussa
