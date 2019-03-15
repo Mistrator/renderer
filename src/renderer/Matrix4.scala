@@ -76,4 +76,6 @@ object Matrix4 {
   
   def apply() = new Matrix4(Array.ofDim[Double](4, 4))
   
+  val identity = new Matrix4(Array(Array(1, 0, 0, 0), Array(0, 1, 0, 0), Array(0, 0, 1, 0), Array(0, 0, 0, 1)))
+  
 }
