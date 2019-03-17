@@ -9,7 +9,11 @@ class Vertex(val position: Vector4, val color: Int) {
   def b = (color >> 16) & ((1<<8) - 1)
   def a = (color >> 24) & ((1<<8) - 1)
   
-  def packRGBA(red: Int, green: Int, blue: Int, alpha: Int) : Int = {
+  def *(that: Matrix4) : Vertex = new Vertex(that * position, color)
+}
+
+object Vertex {
+    def packRGBA(red: Int, green: Int, blue: Int, alpha: Int) : Int = {
     if (red < 0 || red > 255 || green < 0 || green > 255 ||
         blue < 0 || blue > 255 || alpha < 0 || alpha > 255) {
       throw new IllegalArgumentException("Color parameter out of range")
@@ -22,7 +26,4 @@ class Vertex(val position: Vector4, val color: Int) {
     
     return packed
   }
-  
-  def *(that: Matrix4) : Vertex = new Vertex(that * position, color)
-  
 }
