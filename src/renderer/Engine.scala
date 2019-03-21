@@ -20,16 +20,12 @@ object Engine extends JFXApp {
   
   val screen = new Screen(640, 480, scene)
   
-  var pos = 0
-  val t = new Timer
-  val jeqq = new TimerTask {
-    def run() = {
-      pos += 1
-      pos %= width
-      screen.drawImage(pos)
-    }
-  }
-  t.schedule(jeqq, 17, 17)
-
-  //screen.drawImage(Array[Triangle]())
+  val vert = Array.ofDim[Vertex](3)
+  vert(0) = new Vertex(Vector4(0.0, 0.0, 1.0), Vertex.packRGBA(255, 0, 0, 255))
+  vert(1) = new Vertex(Vector4(-1.0, 1.0, 1.0), Vertex.packRGBA(255, 0, 0, 255))
+  vert(2) = new Vertex(Vector4(0.7, 0.9, 1.0), Vertex.packRGBA(255, 0, 0, 255))
+  
+  var trig = new Triangle(vert, SOLID)
+  
+  screen.drawImage(Array(trig))
 }
