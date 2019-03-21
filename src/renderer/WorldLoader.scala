@@ -65,16 +65,16 @@ class WorldLoader {
         for (j <- 0 until m) {
           cline += 1
           val coords = data(cline).split(' ').map(_.toDouble)
-          val v0 = new Vertex(new Vector4(coords.slice(0, 3)), color)
-          val v1 = new Vertex(new Vector4(coords.slice(3, 6)), color)
-          val v2 = new Vertex(new Vector4(coords.slice(6, 9)), color)
+          val v0 = new Vertex(Vector4(coords.slice(0, 3)), color)
+          val v1 = new Vertex(Vector4(coords.slice(3, 6)), color)
+          val v2 = new Vertex(Vector4(coords.slice(6, 9)), color)
           
           triangles += new Triangle(Array(v0, v1, v2), material)
         }
         
         val model = new Model(triangles.toArray)
         
-        val worldObj = new WorldObject(model, WorldObject.buildWorldMatrix(new Vector4(Array(wx, wy, wz))))
+        val worldObj = new WorldObject(model, WorldObject.buildWorldMatrix(Vector4(Array(wx, wy, wz))))
         objects += worldObj
       }
       

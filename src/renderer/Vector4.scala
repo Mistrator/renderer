@@ -59,7 +59,13 @@ class Vector4(val v : Array[Double]) {
 
 object Vector4 {
   
-  def apply(values: Array[Double]) = new Vector4(values)
+  def apply(values: Array[Double]) = {
+    values.length match {
+      case 3 => new Vector4(values ++ Array(1.0))
+      case 4 => new Vector4(values)
+      case _ => throw new IllegalArgumentException("You must supply a 3- or 4-element array")
+    }
+  }
   
   def apply(x: Double, y: Double, z: Double, w: Double) = new Vector4(Array(x, y, z, w))
   

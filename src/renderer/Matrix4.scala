@@ -72,7 +72,12 @@ class Matrix4(val m: Array[Array[Double]]) {
 
 object Matrix4 {
   
-  def apply(values: Array[Array[Double]]) = new Matrix4(values)
+  def apply(values: Array[Array[Double]]) = {
+    if (values.length != 4 || values.exists(a => a.length != 4)) {
+      throw new IllegalArgumentException("You must supply a 4x4 array")
+    }
+    new Matrix4(values)
+  }
   
   def apply() = new Matrix4(Array.ofDim[Double](4, 4))
   
