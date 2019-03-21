@@ -20,7 +20,7 @@ class Screen(width: Int, height: Int, scene: Scene) {
   def drawImage(trig: Array[Triangle]) = {
     // reset the canvas
     gc.clearRect(0, 0, width, height)
-    gc.setFill(Color.CornflowerBlue)
+    gc.setFill(Color.Black)
     gc.fillRect(0, 0, width, height)
     
     for (ct <- trig) {
@@ -28,13 +28,15 @@ class Screen(width: Int, height: Int, scene: Scene) {
       val yPoints = ct.vertices.map(v => toPixelCoordinate(-v.position.y, height))
       
       // for now color the entire triangle with the color of the first vertex
-      gc.setFill(Color.color(ct.vertices(0).r/255.0, ct.vertices(0).g/255.0, ct.vertices(0).b/255.0, ct.vertices(0).a/255.0))
+      val drawColor = Color.color(ct.vertices(0).r/255.0, ct.vertices(0).g/255.0, ct.vertices(0).b/255.0, ct.vertices(0).a/255.0) 
       
       ct.material match {
         case SOLID => {
+          gc.setFill(drawColor)
           gc.fillPolygon(xPoints, yPoints, xPoints.length)
         }
         case WIREFRAME => {
+          gc.setStroke(drawColor)
           gc.strokePolygon(xPoints, yPoints, xPoints.length)
         }
       }

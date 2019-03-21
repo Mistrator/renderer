@@ -21,10 +21,11 @@ object Engine extends JFXApp {
   val screen = new Screen(640, 480, scene)
   
   val loader = new WorldLoader
-  val world = loader.loadWorld("/home/miska/Opiskelu/CS-C2120_Ohjelmointistudio_2/renderer/testworld")
+  val world = loader.loadWorld("/home/miska/Opiskelu/CS-C2120_Ohjelmointistudio_2/renderer/testworld") 
   
   world match {
     case Some(x) => {
+      x.objects(0).worldMatrix = WorldObject.buildWorldMatrix(Vector4(0, 0, 3), Vector4(0.45, 0.21, 0.11))
       val renderer = new Renderer
       val rendVert = renderer.render(x)
       screen.drawImage(rendVert)
