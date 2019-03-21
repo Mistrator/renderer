@@ -20,6 +20,8 @@ object Engine extends JFXApp {
   
   val screen = new Screen(640, 480, scene)
   
+  val loader = new WorldLoader
+  
   val vert = Array.ofDim[Vertex](3)
   vert(0) = new Vertex(Vector4(0.0, 0.0, 1.0), Vertex.packRGBA(255, 0, 0, 255))
   vert(1) = new Vertex(Vector4(-1.0, 1.0, 1.0), Vertex.packRGBA(255, 0, 0, 255))
