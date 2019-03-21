@@ -10,6 +10,7 @@ class Vertex(val position: Vector4, val color: Int) {
   def a = (color >> 24) & ((1<<8) - 1)
   
   def *(that: Matrix4) : Vertex = new Vertex(that * position, color)
+  def *(that: Double) : Vertex = new Vertex(position * that, color)
 }
 
 object Vertex {

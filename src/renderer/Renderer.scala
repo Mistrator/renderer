@@ -15,7 +15,7 @@ class Renderer {
     
     // do triangle clipping here
     
-    return clipSpaceTrg
+    return clipSpaceTrg.map(t => new Triangle(t.vertices.map(v => new Vertex(v.position.homogenize(), v.color)), t.material))
   }
   
   private def closestVertexDist(trg: Triangle) : Double = {

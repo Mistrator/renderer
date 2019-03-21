@@ -31,14 +31,4 @@ object Engine extends JFXApp {
     }
     case None => println("Failed to load world")
   }
-  
-  /*
-  val vert = Array.ofDim[Vertex](3)
-  vert(0) = new Vertex(Vector4(0.0, 0.0, 1.0), Vertex.packRGBA(255, 0, 0, 255))
-  vert(1) = new Vertex(Vector4(-1.0, 1.0, 1.0), Vertex.packRGBA(255, 0, 0, 255))
-  vert(2) = new Vertex(Vector4(0.7, 0.9, 1.0), Vertex.packRGBA(255, 0, 0, 255))
-  
-  var trig = new Triangle(vert, SOLID)
-  
-  screen.drawImage(Array(trig))*/
 }
