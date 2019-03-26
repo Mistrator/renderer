@@ -10,3 +10,16 @@
 - ei ole tullut varsinaisia hankalia virheitä
 
 - työmäärä noin 5-10h, ollaan aikataulussa
+
+25.3 väliraportti
+
+- toteutettu projektiomatriisi
+- toteutettu maailman lataaminen tiedostosta (worldloader)
+- toteutettu kolmioiden projektio ja piirto ruudulle (screen), maailmaa saa nyt ruudulle näkyviin tietyin rajoittein
+
+- piirtoa on testattu silmämääräisesti ajamalla koodia, näyttää tällä hetkellä toimivan odotetusti
+- worldloader lataa kelvollisen tiedoston, mutta sen toimintaa ei ole vielä kunnolla testattu
+
+- piirrettäessä tuli vastaan yksi array index out of bounds, mikä johtui siitä, että vektorin konstruktori ei tarkastanut, että arvoja annettiin varmasti tarpeeksi, ratkesi nopeasti debuggerilla
+
+- työmäärä noin 6-8h, ollaan aikataulussa
