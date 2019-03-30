@@ -5,6 +5,7 @@ import scalafx.scene.Scene
 
 import java.util.Timer
 import java.util.TimerTask
+import scalafx.animation.AnimationTimer
 
 object Engine extends JFXApp {
   val width = 640
@@ -25,10 +26,19 @@ object Engine extends JFXApp {
   
   world match {
     case Some(x) => {
-      x.objects(0).worldMatrix = WorldObject.buildWorldMatrix(Vector4(0, 0, 3), Vector4(0.45, 0.21, 0.11))
       val renderer = new Renderer
-      val rendVert = renderer.render(x)
-      screen.drawImage(rendVert)
+      var currentFrame = 0
+      
+      val mainLoopTimer = AnimationTimer {t =>
+        // test object
+        x.objects(0).worldMatrix = WorldObject.buildWorldMatrix(Vector4(0, 0, 3), Vector4(0.0 + currentFrame / 400.0, 0.0 + currentFrame / 800.0, 0.0))
+        
+        val rendVert = renderer.render(x)
+        screen.drawImage(rendVert)
+        currentFrame += 1
+      }
+      
+      mainLoopTimer.start()
     }
     case None => println("Failed to load world")
   }
