@@ -22,7 +22,7 @@ object Engine extends JFXApp {
   val scene = new Scene
   stage.scene = scene
   
-  val screen = new Screen(640, 480, scene)
+  val screen = new Screen(width, height, scene)
   
   val loader = new WorldLoader
   val world = loader.loadWorld("/home/miska/Opiskelu/CS-C2120_Ohjelmointistudio_2/renderer/testworld")
@@ -53,7 +53,7 @@ object Engine extends JFXApp {
     // temp test
     world.objects(0).worldMatrix = WorldObject.buildWorldMatrix(Vector4(0, 0, 3), Vector4(0.0 + currentFrame / 400.0, 0.0 + currentFrame / 800.0, 0.0))
     
-    val MovementSpeed = 0.1
+    val MovementSpeed = 0.02
     val RotationSpeed = 0.01
     
     if (inputs(KeyCode.LEFT)) {

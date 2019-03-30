@@ -12,10 +12,9 @@ class Renderer {
   
   def render(world: World) : Array[Triangle] = {
     val clipSpaceTrg = toClipSpace(world)
-    
     // do triangle clipping here
     
-    return clipSpaceTrg.map(t => new Triangle(t.vertices.map(v => new Vertex(v.position.homogenize(), v.color)), t.material))
+    return clipSpaceTrg.map(t => new Triangle(t.vertices.map(v => new Vertex(v.position.homogenize(), v.color)), t.material)).filter(x => isVisible(x))
   }
   
   private def closestVertexDist(trg: Triangle) : Double = {
@@ -43,5 +42,13 @@ class Renderer {
     projected.sortWith((a, b) => closestVertexDist(a) > closestVertexDist(b))
     
     return projected.toArray
+  }
+  
+  private def isVisible(trg: Triangle) : Boolean = {
+    trg.vertices.exists(v => isInClipVolume(v))
+  }
+  
+  private def isInClipVolume(v: Vertex) : Boolean = {
+    v.position.z > 0 && v.position.x >= -1 && v.position.x <= 1 && v.position.y >= -1 && v.position.y <= 1
   }
 }
