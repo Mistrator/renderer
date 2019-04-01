@@ -49,6 +49,6 @@ class Renderer {
   }
   
   private def isInClipVolume(v: Vertex) : Boolean = {
-    v.position.z > 0 && v.position.x >= -1 && v.position.x <= 1 && v.position.y >= -1 && v.position.y <= 1
+    v.position.z < 1 && v.position.x >= -1 && v.position.x <= 1 && v.position.y >= -1 && v.position.y <= 1
   }
 }
