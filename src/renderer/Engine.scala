@@ -56,9 +56,9 @@ object Engine extends JFXApp {
     val MovementSpeed = 0.02
     val RotationSpeed = 0.01
     
-    val movementMat = Helpers.buildTransRotMatrix(Vector4(), world.camera.orientation) 
-    val forward = Vector4(0.0, 0.0, 1.0)
-    val right = Vector4(1.0, 0.0, 0.0)
+    val rotationMat = Helpers.buildTransRotMatrix(Vector4(), world.camera.orientation)._2 
+    val forward = rotationMat * Vector4(0.0, 0.0, 1.0)
+    val right = rotationMat * Vector4(1.0, 0.0, 0.0)
     
     if (inputs(KeyCode.W)) {
       world.camera.position += forward * MovementSpeed
