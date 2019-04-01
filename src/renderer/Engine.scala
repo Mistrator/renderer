@@ -9,6 +9,7 @@ import scalafx.animation.AnimationTimer
 import javafx.scene.input.KeyCode
 
 import scala.collection.mutable.Map
+import scala.math.Pi
 
 object Engine extends JFXApp {
   val width = 640
@@ -79,10 +80,16 @@ object Engine extends JFXApp {
       world.camera.orientation += Vector4(0.0, RotationSpeed, 0.0)
     }
     if (inputs(KeyCode.UP)) {
-      world.camera.orientation += Vector4(-RotationSpeed, 0.0, 0.0)
+      val newOri = world.camera.orientation + Vector4(-RotationSpeed, 0.0, 0.0)
+      if (newOri.x > -Pi/2.0) {
+        world.camera.orientation = newOri
+      }
     }
     if (inputs(KeyCode.DOWN)) {
-      world.camera.orientation += Vector4(RotationSpeed, 0.0, 0.0)
+      val newOri = world.camera.orientation + Vector4(RotationSpeed, 0.0, 0.0)
+      if (newOri.x < Pi/2.0) {
+        world.camera.orientation = newOri
+      }
     }
   }
   
