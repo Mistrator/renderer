@@ -16,7 +16,7 @@ object Helpers {
   // the coordinate system is left-handed, so positive rotation is counter-clockwise when looking towards
   // the positive direction of a coordinate axis
   // construction using: http://www.opengl-tutorial.org/assets/faq_quaternions/index.html
-  def buildTransRotMatrix(position: Vector4, eulerRotation: Vector4) : Matrix4 = {
+  def buildTransRotMatrix(position: Vector4, eulerRotation: Vector4) : (Matrix4, Matrix4) = {
     val a = cos(eulerRotation.x)
     val b = sin(eulerRotation.x)
     val c = cos(eulerRotation.y)
@@ -33,6 +33,6 @@ object Helpers {
     val translation = Matrix4(Array(Array(1.0, 0.0, 0.0, position.x), Array(0.0, 1.0, 0.0, position.y),
         Array(0.0, 0.0, 1.0, position.z), Array(0.0, 0.0, 0.0, 1.0)))
     
-    return translation*rotation
+    return (translation, rotation)
   }
 }

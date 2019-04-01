@@ -12,8 +12,10 @@ object WorldObject {
   // rotation is given in radians in Euler angles (x, y, z)
   // the coordinate system is left-handed, so positive rotation is counter-clockwise when looking towards
   // the positive direction of a coordinate axis
-  // construction using: http://www.opengl-tutorial.org/assets/faq_quaternions/index.html
-  def buildWorldMatrix(position: Vector4, eulerRotation: Vector4) : Matrix4 = Helpers.buildTransRotMatrix(position, eulerRotation)
+  def buildWorldMatrix(position: Vector4, eulerRotation: Vector4) : Matrix4 = {
+    val matr = Helpers.buildTransRotMatrix(position, eulerRotation)
+    matr._1 * matr._2
+  }
   
   def buildWorldMatrix(position: Vector4) : Matrix4 = buildWorldMatrix(position, Vector4(0, 0, 0))
 }
