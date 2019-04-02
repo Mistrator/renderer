@@ -1,6 +1,6 @@
 package renderer
 
-class Vertex(val position: Vector4, val color: Int) {
+class Vertex(val position: Vector4, var color: Int) {
   // color is represented as 8-bit RGBA values packed in 32 bits
   // such that bits 0..7 = R, 8..15 = G, 16..23 = B, 24..31 = A
   

@@ -12,8 +12,8 @@ import scala.collection.mutable.Map
 import scala.math.Pi
 
 object Engine extends JFXApp {
-  val width = 1024
-  val height = 768
+  val width = 640
+  val height = 480
   
   stage = new JFXApp.PrimaryStage
   stage.title.value = "Renderer"
@@ -52,7 +52,10 @@ object Engine extends JFXApp {
   
   def update(world: World, currentFrame: Int) = {
     // temp test
-    // world.objects(0).worldMatrix = WorldObject.buildWorldMatrix(Vector4(0, 0, 3), Vector4(0.0 + currentFrame / 400.0, 0.0 + currentFrame / 800.0, 0.0))
+    world.objects(0).worldMatrix = WorldObject.buildWorldMatrix(Vector4(0, 0, 3), Vector4(0.0 + currentFrame / 400.0, 0.0 + currentFrame / 800.0, 0.0))
+    /*world.objects(0).model.mesh(0).vertices(0).color = Vertex.packRGBA(255, 0, 0, 255)
+    world.objects(0).model.mesh(0).vertices(1).color = Vertex.packRGBA(0, 255, 0, 255)
+    world.objects(0).model.mesh(0).vertices(2).color = Vertex.packRGBA(0, 0, 255, 255)*/
     
     val MovementSpeed = 0.02
     val RotationSpeed = 0.01
