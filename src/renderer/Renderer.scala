@@ -39,9 +39,7 @@ class Renderer {
     }
     
     // sort triangles by their closest vertex to camera such that furthest triangles come first  
-    projected.sortWith((a, b) => closestVertexDist(a) > closestVertexDist(b))
-    
-    return projected.toArray
+    return projected.sortWith((a, b) => closestVertexDist(a) > closestVertexDist(b)).toArray
   }
   
   private def isVisible(trg: Triangle) : Boolean = {
