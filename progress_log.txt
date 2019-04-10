@@ -23,3 +23,16 @@
 - piirrettäessä tuli vastaan yksi array index out of bounds, mikä johtui siitä, että vektorin konstruktori ei tarkastanut, että arvoja annettiin varmasti tarpeeksi, ratkesi nopeasti debuggerilla
 
 - työmäärä noin 6-8h, ollaan aikataulussa
+
+8.4 väliraportti
+
+- toteutettu ohjelman main loop, ohjelman voi käynnistää ja maailma piirtyy
+- totetutettu kameran liikuttaminen ja kääntäminen
+- toteutettu yksinkertaiset kolmioiden näkyvyystestit
+- alettu toteuttaa kolmioiden liukuvärjäystä verteksien värien perusteella
+
+- kameran liikettä ja piirtoa on testattu silmämääräisesti suorittamalla ohjelmaa
+
+- kameran kääntöä toteutettaessa kierto oli aluksi väärän pisteen ympärillä, mikä ilmeni vasta, kun kameraa kiersi liikuttamisen jälkeen, helppo korjaus ongelman tunnistamisen jälkeen
+
+- työmäärä noin 6h, ollaan suurin piirtein aikataulussa

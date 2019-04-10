@@ -45,7 +45,7 @@ class Screen(width: Int, height: Int, scene: Scene) {
             val abx = (xPoints(a)+xPoints(b)) / 2.0
             val aby = (yPoints(a)+yPoints(b)) / 2.0
             val abColor = Color.color((ct.vertices(a).r+ct.vertices(b).r)/(2*255.0), (ct.vertices(a).g+ct.vertices(b).g)/(2*255.0),
-                (ct.vertices(a).b+ct.vertices(b).b)/(2*255.0), 0.0 /*(ct.vertices(a).a+ct.vertices(b).a)/(2*255.0)*/)
+                (ct.vertices(a).b+ct.vertices(b).b)/(2*255.0), (ct.vertices(a).a+ct.vertices(b).a)/(2*255.0))
             val cColor = Color.color(ct.vertices(c).r/255.0, ct.vertices(c).g/255.0, ct.vertices(c).b/255.0, ct.vertices(c).a/255.0)
             
             val stops = Seq(new Stop(0, cColor), new Stop(1, abColor))

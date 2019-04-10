@@ -12,8 +12,8 @@ import scala.collection.mutable.Map
 import scala.math.Pi
 
 object Engine extends JFXApp {
-  val width = 640
-  val height = 480
+  val width = 1024
+  val height = 768
   
   stage = new JFXApp.PrimaryStage
   stage.title.value = "Renderer"
