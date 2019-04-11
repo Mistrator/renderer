@@ -57,39 +57,36 @@ object Engine extends JFXApp {
     world.objects(0).model.mesh(0).vertices(1).color = Vertex.packRGBA(0, 255, 0, 255)
     world.objects(0).model.mesh(0).vertices(2).color = Vertex.packRGBA(0, 0, 255, 255)*/
     
-    val MovementSpeed = 0.02
-    val RotationSpeed = 0.01
-    
     val rotationMat = Helpers.buildTransRotMatrix(Vector4(), world.camera.orientation)._2 
     val forward = rotationMat * Vector4(0.0, 0.0, 1.0)
     val right = rotationMat * Vector4(1.0, 0.0, 0.0)
     
     if (inputs(KeyCode.W)) {
-      world.camera.position += forward * MovementSpeed
+      world.camera.position += forward * Constants.MovementSpeed
     }
     if (inputs(KeyCode.S)) {
-      world.camera.position += forward * (-MovementSpeed)
+      world.camera.position += forward * (-Constants.MovementSpeed)
     }
     if (inputs(KeyCode.D)) {
-      world.camera.position += right * MovementSpeed
+      world.camera.position += right * Constants.MovementSpeed
     }
     if (inputs(KeyCode.A)) {
-      world.camera.position += right * (-MovementSpeed)
+      world.camera.position += right * (-Constants.MovementSpeed)
     }
     if (inputs(KeyCode.LEFT)) {
-      world.camera.orientation += Vector4(0.0, -RotationSpeed, 0.0)
+      world.camera.orientation += Vector4(0.0, -Constants.RotationSpeed, 0.0)
     }
     if (inputs(KeyCode.RIGHT)) {
-      world.camera.orientation += Vector4(0.0, RotationSpeed, 0.0)
+      world.camera.orientation += Vector4(0.0, Constants.RotationSpeed, 0.0)
     }
     if (inputs(KeyCode.UP)) {
-      val newOri = world.camera.orientation + Vector4(-RotationSpeed, 0.0, 0.0)
+      val newOri = world.camera.orientation + Vector4(-Constants.RotationSpeed, 0.0, 0.0)
       if (newOri.x > -Pi/2.0) {
         world.camera.orientation = newOri
       }
     }
     if (inputs(KeyCode.DOWN)) {
-      val newOri = world.camera.orientation + Vector4(RotationSpeed, 0.0, 0.0)
+      val newOri = world.camera.orientation + Vector4(Constants.RotationSpeed, 0.0, 0.0)
       if (newOri.x < Pi/2.0) {
         world.camera.orientation = newOri
       }
