@@ -53,13 +53,11 @@ object Engine extends JFXApp {
   def update(world: World, currentFrame: Int) = {
     // temp test
     world.objects(0).worldMatrix = WorldObject.buildWorldMatrix(Vector4(0, 0, 3), Vector4(0.0 + currentFrame / 400.0, 0.0 + currentFrame / 800.0, 0.0))
-    /*world.objects(0).model.mesh(0).vertices(0).color = Vertex.packRGBA(255, 0, 0, 255)
-    world.objects(0).model.mesh(0).vertices(1).color = Vertex.packRGBA(0, 255, 0, 255)
-    world.objects(0).model.mesh(0).vertices(2).color = Vertex.packRGBA(0, 0, 255, 255)*/
     
     val rotationMat = Helpers.buildTransRotMatrix(Vector4(), world.camera.orientation)._2 
     val forward = rotationMat * Vector4(0.0, 0.0, 1.0)
     val right = rotationMat * Vector4(1.0, 0.0, 0.0)
+    val up = rotationMat * Vector4(0.0, 1.0, 0.0)
     
     if (inputs(KeyCode.W)) {
       world.camera.position += forward * Constants.MovementSpeed
@@ -72,6 +70,12 @@ object Engine extends JFXApp {
     }
     if (inputs(KeyCode.A)) {
       world.camera.position += right * (-Constants.MovementSpeed)
+    }
+    if (inputs(KeyCode.Q)) {
+      world.camera.position += up * (-Constants.MovementSpeed)
+    }
+    if (inputs(KeyCode.E)) {
+      world.camera.position += up * Constants.MovementSpeed
     }
     if (inputs(KeyCode.LEFT)) {
       world.camera.orientation += Vector4(0.0, -Constants.RotationSpeed, 0.0)

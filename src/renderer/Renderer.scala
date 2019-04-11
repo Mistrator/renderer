@@ -11,11 +11,20 @@ class Renderer {
         Array(0, 0, (far+near)/(far-near), -(2*far*near)/(far-near)), Array(0, 0, 1, 0)))
   }
   
+  /*
+   * Return the parts of the triangle that are inside the view volume
+   */
+  def clipTriangle(trg: Triangle) : Array[Triangle] = {
+    Array(trg)
+  }
+  
   def render(world: World) : Array[Triangle] = {
     val clipSpaceTrg = toClipSpace(world)
-    // do triangle clipping here
     
-    return clipSpaceTrg.map(t => new Triangle(t.vertices.map(v => new Vertex(v.position.homogenize(), v.color)), t.material)).filter(x => isVisible(x))
+    // clip triangles to view volume
+    val clippedTrg = clipSpaceTrg.foldLeft(Array[Triangle]())((a, b) => a ++ clipTriangle(b))
+    
+    return clippedTrg.map(t => new Triangle(t.vertices.map(v => new Vertex(v.position.homogenize(), v.color)), t.material)).filter(x => isVisible(x))
   }
   
   /*
