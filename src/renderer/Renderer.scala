@@ -2,6 +2,7 @@ package renderer
 
 import scala.collection.mutable.Buffer
 import scala.math.min
+import scala.math.abs
 
 class Renderer {
   
@@ -17,12 +18,25 @@ class Renderer {
     return clipSpaceTrg.map(t => new Triangle(t.vertices.map(v => new Vertex(v.position.homogenize(), v.color)), t.material)).filter(x => isVisible(x))
   }
   
-  private def closestVertexDist(trg: Triangle) : Double = {
-    var minDist = Double.MaxValue
-    for (vert <- trg.vertices) {
-      minDist = min(minDist, vert.position.z)
+  /*
+   * Compare triangles by their distance, one with first non-overlapping vertex that has larger z comes first
+   */
+  private def trgCompare(a: Triangle, b: Triangle) : Boolean = {
+    val zDistA = a.vertices.map(v => v.position.z).sortWith(_ > _)
+    val zDistB = b.vertices.map(v => v.position.z).sortWith(_ > _)
+    
+    for (i <- 0 until a.vertices.length) {
+      val az = zDistA(i)
+      val bz = zDistB(i)
+      
+      // check that z coordinates don't overlap
+      if (abs(az-bz) > 1e-3) {
+        return az > bz  
+      }
     }
-    minDist
+    
+    // the triangles overlap completely, so we can just say that the second one comes first
+    return false
   }
   
   private def toClipSpace(world: World) : Array[Triangle] = {
@@ -39,7 +53,7 @@ class Renderer {
     }
     
     // sort triangles by their closest vertex to camera such that furthest triangles come first  
-    return projected.sortWith((a, b) => closestVertexDist(a) > closestVertexDist(b)).toArray
+    return projected.sortWith(trgCompare).toArray
   }
   
   private def isVisible(trg: Triangle) : Boolean = {
