@@ -26,7 +26,7 @@ object Engine extends JFXApp {
   val screen = new Screen(width, height, scene)
   
   val loader = new WorldLoader
-  val world = loader.loadWorld("/home/miska/Opiskelu/CS-C2120_Ohjelmointistudio_2/renderer/testworld")
+  val world = loader.loadWorld("/home/miska/Opiskelu/CS-C2120_Ohjelmointistudio_2/renderer/testworld_2")
   
   // is a certain key currently down
   val inputs = Map[KeyCode, Boolean]().withDefaultValue(false)
@@ -52,7 +52,7 @@ object Engine extends JFXApp {
   
   def update(world: World, currentFrame: Int) = {
     // temp test
-    world.objects(0).worldMatrix = WorldObject.buildWorldMatrix(Vector4(0, 0, 3), Vector4(0.0 + currentFrame / 400.0, 0.0 + currentFrame / 800.0, 0.0))
+    // world.objects(0).worldMatrix = WorldObject.buildWorldMatrix(Vector4(0, 0, 3), Vector4(0.0 + currentFrame / 400.0, 0.0 + currentFrame / 800.0, 0.0))
     
     val rotationMat = Helpers.buildTransRotMatrix(Vector4(), world.camera.orientation)._2 
     val forward = rotationMat * Vector4(0.0, 0.0, 1.0)

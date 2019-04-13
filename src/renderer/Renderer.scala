@@ -12,35 +12,73 @@ class Renderer {
         Array(0, 0, (far+near)/(far-near), -(2*far*near)/(far-near)), Array(0, 0, 1, 0)))
   }
   
-  
-  private def clipTriangleWith(trg: Triangle, isInside: Vertex => Boolean) : Array[Triangle] = {
-    val visibleCnt = trg.vertices.count(v => isInside(v))
-    visibleCnt match {
-      case 0 => return Array[Triangle]() // triangle is completely outside
-      case 1 => return Array[Triangle]() // TODO
-      case 2 => return Array[Triangle]() // TODO
-      case 3 => return Array(trg) // triangle is completely visible
-    }
-    throw new IllegalArgumentException("A triangle had more than 3 vertices")
+  /**
+   * Find the intersection point of a line and a plane.
+   * The function assumes that such point exists and is unique.
+   */
+  private def planeLineIntersection(linePos: Vector4, lineDir: Vector4, planePos: Vector4, planeNormal: Vector4) : Vector4 = {
+    val w = linePos - planePos
+    val t = -(planeNormal*w) / (planeNormal * lineDir)
+    val isectPoint = linePos + lineDir * t
+    return isectPoint
   }
   
-  /*
+  private def clipTriangleWith(trg: Triangle, planePos: Vector4, planeNormal: Vector4) : Array[Triangle] = {
+    val visible = Buffer[Vertex]()
+    val invisible = Buffer[Vertex]()
+    
+    for (vert <- trg.vertices) {
+      val v = planePos - vert.position
+      if (planeNormal * v <= 0.0) {
+        visible += vert
+      } else {
+        invisible += vert
+      }
+    }
+    
+    visible.length match {
+      case 0 => return Array[Triangle]() // the triangle is completely invisible
+      case 1 => {
+        val isectPoint1 = planeLineIntersection(visible(0).position, invisible(0).position - visible(0).position, planePos, planeNormal)
+        val isectPoint2 = planeLineIntersection(visible(0).position, invisible(1).position - visible(0).position, planePos, planeNormal)
+        
+        // we could interpolate the vertex colors but this'll do for now
+        val clipped = new Triangle(Array(visible(0), new Vertex(isectPoint1, invisible(0).color), new Vertex(isectPoint2, invisible(1).color)), trg.material)
+        return Array(clipped)
+      }
+      case 2 => {
+        val isectPoint1 = planeLineIntersection(visible(0).position, invisible(0).position - visible(0).position, planePos, planeNormal)
+        val isectPoint2 = planeLineIntersection(visible(1).position, invisible(0).position - visible(1).position, planePos, planeNormal)
+        
+        // the triangle is split to two visible parts
+        // again, we could interpolate the colors
+        val clipped1 = new Triangle(Array(visible(0), new Vertex(isectPoint1, invisible(0).color), new Vertex(isectPoint2, invisible(0).color)), trg.material)
+        val clipped2 = new Triangle(Array(visible(1), visible(0), new Vertex(isectPoint2, invisible(0).color)), trg.material)
+        return Array(clipped1, clipped2)
+      }
+      case 3 => return Array(trg) // the triangle is completely visible
+    }
+    throw new IllegalArgumentException("The triangle had more than 3 vertices")
+  }
+  
+  /**
    * Return the parts of the triangle that are inside the view volume
    */
   private def clipTriangle(trg: Triangle) : Array[Triangle] = {
    var visible = Buffer[Triangle](trg)
-   val planes = Array[Vertex => Boolean](
-       v => v.position.x >= -1.0, // left plane
-       v => v.position.x <= 1.0, // right plane
-       v => v.position.y >= -1.0, // bottom plane
-       v => v.position.y <= 1.0, // top plane
-       v => v.position.z >= 0.0, // near plane
-       v => v.position.z <= 1.0) // far plane
-       
+   val planes = Array[(Vector4, Vector4)]( // (plane position, plane normal), the normal points inwards (to the visible side)
+       (Vector4(-1, 0, 0), Vector4(1, 0, 0)), // left plane
+       (Vector4(1, 0, 0), Vector4(-1, 0, 0)), // right plane
+       (Vector4(0, -1, 0), Vector4(0, 1, 0)), // bottom plane
+       (Vector4(0, 1, 0), Vector4(0, -1, 0)), // top plane
+       (Vector4(0, 0, 0), Vector4(0, 0, 1)), // near plane
+       (Vector4(0, 0, 1), Vector4(0, 0, -1)) // far plane
+       )
+
    for (plane <- planes) {
      var newVisible = Buffer[Triangle]()
      for (t <- visible) {
-       newVisible ++= clipTriangleWith(t, plane)
+       newVisible ++= clipTriangleWith(t, plane._1, plane._2)
      }
      visible = newVisible
    }
