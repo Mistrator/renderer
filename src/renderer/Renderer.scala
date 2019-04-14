@@ -95,7 +95,7 @@ class Renderer {
     return clippedTrg
   }
   
-  /*
+  /**
    * Compare triangles by their distance, one with first non-overlapping vertex that has larger z comes first
    */
   private def trgCompare(a: Triangle, b: Triangle) : Boolean = {

@@ -1,6 +1,7 @@
 package renderer
 
 import scala.math.sqrt
+import scala.math.abs
 
 class Vector4(val v : Array[Double]) {
   
@@ -51,7 +52,10 @@ class Vector4(val v : Array[Double]) {
     Vector4(x/len, y/len, z/len, w/len)
   }
   
-  def homogenize() = Vector4(x/w, y/w, z/w, 1)
+  def homogenize() = {
+    val div = abs(w) // divide by positive w to avoid mirroring issues when projecting vertices
+    Vector4(x/div, y/div, z/div, 1)
+  }
   
   override def toString = "(" + x + ", " + y + ", " + z + ", " + w + ")"
 }
