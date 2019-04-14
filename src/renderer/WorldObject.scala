@@ -3,7 +3,28 @@ package renderer
 import scala.math.sin
 import scala.math.cos
 
-class WorldObject(val model: Model, var worldMatrix: Matrix4)
+class WorldObject(val model: Model, var worldMatrix: Matrix4, var collisionBox: Option[CollisionBox]) {
+  
+  /**
+   * Check whether a point is inside the collision box.
+   * Returns false if there is no collision box.
+   */
+  def isInCollisionBox(point: Vector4) : Boolean = {
+    collisionBox match {
+      case Some(b) => {
+        // the collision box doesn't rotate with the object, it only translates
+        val center = worldMatrix * Vector4.zero
+        val bottomLeft = center + b.bottomLeftCorner
+        val topRight = center + b.topRightCorner
+        
+        return bottomLeft.x <= point.x && point.x <= topRight.x && 
+        bottomLeft.y <= point.y && point.y <= topRight.y &&
+        bottomLeft.z <= point.z && point.z <= topRight.z
+      }
+      case None => return false
+    }
+  }
+}
 
 object WorldObject {
   

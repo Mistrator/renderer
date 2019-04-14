@@ -59,24 +59,33 @@ object Engine extends JFXApp {
     val right = rotationMat * Vector4(1.0, 0.0, 0.0)
     val up = Vector4(0.0, 1.0, 0.0)
     
+    var newCamPos = world.camera.position
+    
+    // camera movement
     if (inputs(KeyCode.W)) {
-      world.camera.position += forward * Constants.MovementSpeed
+      newCamPos += forward * Constants.MovementSpeed
     }
     if (inputs(KeyCode.S)) {
-      world.camera.position += forward * (-Constants.MovementSpeed)
+      newCamPos += forward * (-Constants.MovementSpeed)
     }
     if (inputs(KeyCode.D)) {
-      world.camera.position += right * Constants.MovementSpeed
+      newCamPos += right * Constants.MovementSpeed
     }
     if (inputs(KeyCode.A)) {
-      world.camera.position += right * (-Constants.MovementSpeed)
+      newCamPos += right * (-Constants.MovementSpeed)
     }
     if (inputs(KeyCode.Q)) {
-      world.camera.position += up * Constants.MovementSpeed
+      newCamPos += up * Constants.MovementSpeed
     }
     if (inputs(KeyCode.Z)) {
-      world.camera.position += up * (-Constants.MovementSpeed)
+      newCamPos += up * (-Constants.MovementSpeed)
     }
+    
+    if (!world.collides(newCamPos)) {
+      world.camera.position = newCamPos
+    }
+    
+    // camera orientation
     if (inputs(KeyCode.LEFT)) {
       world.camera.orientation += Vector4(0.0, -Constants.RotationSpeed, 0.0)
     }

@@ -74,7 +74,19 @@ class WorldLoader {
         
         val model = new Model(triangles.toArray)
         
-        val worldObj = new WorldObject(model, WorldObject.buildWorldMatrix(Vector4(Array(wx, wy, wz))))
+        val xCoords = triangles.flatMap(t => t.vertices.map(v => v.position.x))
+        val yCoords = triangles.flatMap(t => t.vertices.map(v => v.position.y))
+        val zCoords = triangles.flatMap(t => t.vertices.map(v => v.position.z))
+        
+        // build a collision box around the outermost vertices
+        val modelWidth = xCoords.max - xCoords.min
+        val modelHeight = yCoords.max - yCoords.min
+        val modelDepth = zCoords.max - zCoords.min
+        
+        val worldObj = new WorldObject(model, 
+            WorldObject.buildWorldMatrix(Vector4(Array(wx, wy, wz))), 
+            Some(new CollisionBox(modelWidth, modelHeight, modelDepth)))
+        
         objects += worldObj
       }
       
