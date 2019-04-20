@@ -59,43 +59,15 @@ class Screen(width: Int, height: Int, scene: Scene) {
       
       ct.material match {
         case SOLID => {
-          for (i <- 0 until 3) {
-            val a = i
-            val b = (i+1)%3
-            val c = (i+2)%3
-            
-            val abx = (xPoints(a)+xPoints(b)) / 2.0
-            val aby = (yPoints(a)+yPoints(b)) / 2.0
-            val abz = (zPoints(a)+zPoints(b)) / 2.0
-            val cz = zPoints(c)
-            
-            // point ab color components
-            val abr = clamp((ct.vertices(a).r+ct.vertices(b).r)/(2*255.0) - abz, 0.0, 1.0)
-            val abg = clamp((ct.vertices(a).g+ct.vertices(b).g)/(2*255.0) - abz, 0.0, 1.0)
-            val abb = clamp((ct.vertices(a).b+ct.vertices(b).b)/(2*255.0) - abz, 0.0, 1.0)
-            val aba = clamp((ct.vertices(a).a+ct.vertices(b).a)/(2*255.0), 0.0, 1.0)
-            
-            val abColor = Color.color(abr, abg, abb, aba)
-            
-            // point c color components
-            val cr = clamp(ct.vertices(c).r/255.0 - cz, 0.0, 1.0)
-            val cg = clamp(ct.vertices(c).g/255.0 - cz, 0.0, 1.0)
-            val cb = clamp(ct.vertices(c).b/255.0 - cz, 0.0, 1.0)
-            val ca = clamp(ct.vertices(c).a/255.0, 0.0, 1.0)
-              
-            val cColor = Color.color(cr, cg, cb, ca)
-            
-            val stops = Seq(new Stop(0, cColor), new Stop(1, abColor))
-            val linearGradient = new LinearGradient(xPoints(c), yPoints(c), abx, aby, false, CycleMethod.NoCycle, stops)
-            
-            gc.setFill(linearGradient)
-            gc.fillPolygon(xPoints, yPoints, xPoints.length)
-            
-            gc.setStroke(Color.Black)
-            gc.strokePolygon(xPoints, yPoints, xPoints.length)
-          }
-          // gc.setFill(drawColor)
-          // gc.fillPolygon(xPoints, yPoints, xPoints.length)
+          val cZDist = zPoints.sum / 3.0
+          val cr = clamp(ct.vertices.foldLeft(0.0)((r, v) => r + v.r) / (3*255.0) - cZDist, 0.0, 1.0)
+          val cg = clamp(ct.vertices.foldLeft(0.0)((g, v) => g + v.g) / (3*255.0) - cZDist, 0.0, 1.0)
+          val cb = clamp(ct.vertices.foldLeft(0.0)((b, v) => b + v.b) / (3*255.0) - cZDist, 0.0, 1.0)
+          val ca = clamp(ct.vertices.foldLeft(0.0)((a, v) => a + v.a) / (3*255.0), 0.0, 1.0)
+          
+          val drawColor = Color.color(cr, cg, cb, ca)
+          gc.setFill(drawColor)
+          gc.fillPolygon(xPoints, yPoints, xPoints.length)
         }
         case WIREFRAME => {
           val lineColor = Color.color(ct.vertices(0).r/255.0, ct.vertices(0).g/255.0, ct.vertices(0).b/255.0, ct.vertices(0).a/255.0)
