@@ -26,7 +26,7 @@ object Engine extends JFXApp {
   val screen = new Screen(width, height, scene)
   
   val loader = new WorldLoader
-  val world = loader.loadWorld("/home/miska/Opiskelu/CS-C2120_Ohjelmointistudio_2/renderer/demoworld")
+  val world = loader.loadWorld("./demoworld")
   
   // is a certain key currently down
   val inputs = Map[KeyCode, Boolean]().withDefaultValue(false)
