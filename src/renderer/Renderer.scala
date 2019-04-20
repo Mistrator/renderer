@@ -107,7 +107,7 @@ class Renderer {
       val bz = zDistB(i)
       
       // check that z coordinates don't overlap
-      if (abs(az-bz) > 1e-3) {
+      if (abs(az-bz) > Constants.DoubleEps) {
         return az > bz  
       }
     }

@@ -6,4 +6,6 @@ object Constants {
   
   val MovementSpeed = 0.02
   val RotationSpeed = 0.01
+  
+  val DoubleEps = 1e-9
 }
