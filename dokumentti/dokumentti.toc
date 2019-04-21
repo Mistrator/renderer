@@ -1,13 +1,13 @@
 \babel@toc {finnish}{}
 \contentsline {section}{\numberline {1}Yleiskuvaus}{2}% 
 \contentsline {section}{\numberline {2}K\IeC {\"a}ytt\IeC {\"o}ohje}{2}% 
-\contentsline {section}{\numberline {3}Ohjelman rakenne}{2}% 
-\contentsline {section}{\numberline {4}Algoritmit}{2}% 
-\contentsline {section}{\numberline {5}Tietorakenteet}{2}% 
-\contentsline {section}{\numberline {6}Tiedostot}{2}% 
-\contentsline {section}{\numberline {7}Testaus}{2}% 
-\contentsline {section}{\numberline {8}Puutteet ja viat}{2}% 
-\contentsline {section}{\numberline {9}Parhaat ja heikoimmat kohdat}{2}% 
-\contentsline {section}{\numberline {10}Poikkeamat suunnitelmasta}{2}% 
-\contentsline {section}{\numberline {11}Kokonaisarvio}{2}% 
-\contentsline {section}{\numberline {12}Viitteet}{2}% 
+\contentsline {section}{\numberline {3}Ohjelman rakenne}{3}% 
+\contentsline {section}{\numberline {4}Algoritmit}{3}% 
+\contentsline {section}{\numberline {5}Tietorakenteet}{3}% 
+\contentsline {section}{\numberline {6}Tiedostot}{3}% 
+\contentsline {section}{\numberline {7}Testaus}{3}% 
+\contentsline {section}{\numberline {8}Puutteet ja viat}{3}% 
+\contentsline {section}{\numberline {9}Parhaat ja heikoimmat kohdat}{3}% 
+\contentsline {section}{\numberline {10}Poikkeamat suunnitelmasta}{3}% 
+\contentsline {section}{\numberline {11}Kokonaisarvio}{3}% 
+\contentsline {section}{\numberline {12}Viitteet}{3}% 
