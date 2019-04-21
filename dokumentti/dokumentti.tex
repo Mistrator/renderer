@@ -7,6 +7,8 @@
 \usepackage {mathtools}
 \usepackage {graphicx}
 
+\newcommand{\textbi}[1]{\textit{\textbf{#1}}}
+
 \begin {document}
 
 \title {Projektin dokumentti}
@@ -27,6 +29,61 @@ Kun ohjelma käynnistetään, se lataa mallinnettavan maailman \texttt{world}-ni
 Kameraa voi liikuttaa eteen, taakse ja sivuille \texttt{W, A, S, D}-näppäimillä. \texttt{Q} ja \texttt{Z} liikuttavat kameraa ylös ja alas. Nuolinäppäimet kääntävät kameraa.
 
 \section {Ohjelman rakenne}
+
+Luokka \textit{\textbf{Vertex}} kuvaa kolmion nurkkapistettä. Kullakin \textit{Vertexillä} on:
+\begin{itemize}
+	\item sijainti object spacessa (yksittäisen kappaleen omassa koordinaatistossa)
+	\item väri
+\end{itemize}
+
+Luokka \textit{\textbf{Triangle}} kuvaa kolmesta \textit{Vertexistä} koostuvaa kolmiota. \textit{Triangle} on avaruuden kappaleiden rakennuspalikka ja yksinkertaisin renderöitävissä oleva primitiivi. \textit{Trianglella} on:
+\begin{itemize}
+	\item kolme \textit{Vertexiä}, eli kolmion nurkkapisteet object spacessa
+	\item materiaali (kertoo miten kolmio piirretään: umpinainen, wireframe)
+\end{itemize}
+
+Luokka \textit{\textbf{Model}} mallintaa yksittäistä, kolmioista koostuvaa kappaletta. Kolmiot on aseteltu kappaleen omaan object spaceen. \textit{Modelilla} on:
+\begin{itemize}
+	\item yhden tai useamman \textit{Trianglen} muodostama mesh eli käytännössä lista kolmioista, jotka muodostavat yhdessä kappaleen
+	\item metodit, joilla voi asettaa materiaalin ja värin kerralla koko meshille
+\end{itemize}
+
+Luokka \textbi{CollisionBox} kuvaa kappaleen muotoa törmäystunnistuksen kannalta. \textit{CollisionBox} on koordinaattiakselien suuntainen suorakulmainen särmiö, jonka läpi liikkuminen ei ole sallittua. \textit{CollisionBoxilla} on kaksi nurkkapistettä, jotka määrittävät särmiön muodon. Pisteet ovat kappaleen object spacessa, eli samassa koordinaattijärjestelmässä kuin kappaleen \textit{Modelin} verteksit.
+
+Luokka \textit{\textbf{WorldObject}} kuvaa maailmassa olevaa objektia, kuten esimerkiksi seinää. \textit{WorldObjectilla} on
+\begin{itemize}
+	\item \textit{Model}, joka määrittää kappaleen muodon ja ulkonäön
+	\item mahdollinen \textit{CollisionBox}, joka kuvaa kappaleen muotoa törmäystunnistuksen kannalta
+	\item metodi, jolla voi kysyä, onko jokin piste kappaleen sisällä
+	\item Transform, eli 4x4-matriisi (world matrix), joka kuvaa kappaleen \textit{Modelin} ja \textit{CollisionBoxin} verteksit object spacesta world spaceen. Matriisin avulla asetetaan kappale avaruuteen haluttuun paikkaan ja asentoon.
+\end{itemize}
+
+Luokka \textit{\textbf{World}} kuvaa mallinnettavaa avaruutta ja pitää sisällään kaikki avaruudessa olevat kappaleet. \textit{Worldilla} on
+\begin{itemize}
+	\item lista \textit{WorldObjecteista} sopivine Transformeineen, eli maailmassa olevat kappaleet oikeilla paikoillaan
+	\item \textit{Camera}, eli kamera, jonka näkökulmasta maailma renderöidään
+	\item metodi, jolla voi kysyä, onko jokin piste maailman kappaleen sisällä
+\end{itemize}
+
+Luokka \textit{\textbf{Camera}} määrittää, mistä paikasta maailmaa tarkastellaan ja mihin suuntaan katsotaan. Kamera on aina renderöitäessä oman koordinaatistonsa (view spacen) origossa osoittaen $+z$-suuntaan, muuta maailmaa liikutetaan ja käännetään tarpeen mukaan. \textit{Cameralla} on:
+\begin{itemize}
+	\item Transform, eli 4x4-matriisi (view matrix), joka kuvaa maailman \textit{Modelien} verteksit world spacesta view spaceen siten, että kamera on origossa $+z$-suunnassa
+	\item metodi view matrixin rakentamiseen siten, että kamera on maailmaan nähden halutussa paikassa ja osoittaa haluttuun suuntaan
+\end{itemize}
+
+Luokka \textit{\textbf{Renderer}} ottaa renderöitäväksi \textbf{Worldin} ja kuvaa sen \textbf{Modeleiden} verteksit \textit{Cameran} view spacesta clip spaceen, eli koordinaatistoon, jossa tarkastellaan verteksien näkyvyyttä. Tämän jälkeen \textit{Renderer} selvittää, mitkä \textit{Triangleista} ovat kameran näkökentässä, hylkää sen ulkopuolella olevat, leikkaa sopivasti osittain näkyvissä olevia ja lopulta projisoi koko näkymän clip spacesta image spaceen, eli kaksiulotteiselle tasolle. \textit{Renderer} luo $z$-koordinaatin mukaan järjestetyn listan piirrettävistä \textit{Triangleista}, jotka on projisoitu perspektiiviprojektiolla $xy$-tasolle siten, että niiden $x$- ja $y$-koordinaatit on normalisoitu välille $[-1.0, 1.0]$.
+
+Luokka \textit{\textbf{Screen}} kuvaa näkyvää 2D-pikseliruudukkoa, johon kuva piirretään. \textit{Screen} ottaa \textit{Rendereriltä} listan projisoiduista \textit{Triangleista}, kuvaa niiden verteksit väliltä $[-1.0, 1.0]$ pikselikoordinaatteihin ja piirtää ne näkyviin ruudulle materiaalit ja värit huomioiden.
+
+Luokat \textit{\textbf{Vector4 ja Matrix4}} kuvaavat laskennassa käytettäviä neliulotteisia vektoreita ja matriiseja ja toteuttavat niille tarvittavat laskutoimitukset.
+
+Luokka \textit{\textbf{WorldLoader}} lukee maailman tiedostosta ja luo sen pohjalta \textit{Worldin} ilmentymän.
+
+Luokka \textit{\textbf{Engine}} käynnistää ohjelman, luo käyttöliittymän, kuuntelee käyttäjän syötettä ja päivittää grafiikkaa ja logiikkaa tasaisin väliajoin.
+
+Luokka \textbf{Constants} sisältää ohjelmassa käytettäviä vakioita.
+
+Luokka \textbf{Helpers} sisältää usein tarvittavia apufunktioita.
 
 \section {Algoritmit}
 
