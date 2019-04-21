@@ -26,7 +26,7 @@ class WorldLoader {
     resource.close()
   }
     
-  private def parseWorld(data: Array[String]) : Option[World] = {
+  private def parseWorld(data: Array[String]) : (Option[World], String) = {
     try {
       val camPos = data(0).split(' ').map(_.toDouble)
       val camera = new Camera(Vector4(camPos(0), camPos(1), camPos(2)), Vector4(0, 0, 0))
@@ -48,7 +48,7 @@ class WorldLoader {
         val material = appearance(0) match {
           case "SOLID" => SOLID
           case "WIREFRAME" => WIREFRAME
-          case _ => return None // invalid material type
+          case _ => return (None, "Unknown material type") // invalid material type
         }
         val r = appearance(1).toInt
         val g = appearance(2).toInt
@@ -65,6 +65,9 @@ class WorldLoader {
         for (j <- 0 until m) {
           cline += 1
           val coords = data(cline).split(' ').map(_.toDouble)
+          if (coords.length != 9) {
+            return (None, "Wrong number of vertex coordinates")
+          }
           val v0 = new Vertex(Vector4(coords.slice(0, 3)), color)
           val v1 = new Vertex(Vector4(coords.slice(3, 6)), color)
           val v2 = new Vertex(Vector4(coords.slice(6, 9)), color)
@@ -90,15 +93,15 @@ class WorldLoader {
       }
       
       val world = new World(objects, camera)
-      return Some(world)
+      return (Some(world), "load ok")
       
     } catch {
-      case nf: NumberFormatException => return None
-      case eof: ArrayIndexOutOfBoundsException => return None
+      case nf: NumberFormatException => return (None, "Invalid numeric value")
+      case eof: ArrayIndexOutOfBoundsException => return (None, "Invalid file structure (missing values or lines?)")
     }
   }
   
-  def loadWorld(filePath: String) : Option[World] = {
+  def loadWorld(filePath: String) : (Option[World], String) = {
     try {
       using(Source.fromFile(filePath)) { src => {
         val lines = Buffer[String]()
@@ -108,7 +111,7 @@ class WorldLoader {
         return parseWorld(lines.toArray)
       }}
     } catch {
-      case e: FileNotFoundException => return None
+      case e: FileNotFoundException => return (None, "File not found")
     }
   }
 }

@@ -26,14 +26,14 @@ object Engine extends JFXApp {
   val screen = new Screen(width, height, scene)
   
   val loader = new WorldLoader
-  val world = loader.loadWorld("./demoworld")
+  val world = loader.loadWorld("./world")
   
   // is a certain key currently down
   val inputs = Map[KeyCode, Boolean]().withDefaultValue(false)
   
   var exited = false
   
-  world match {
+  world._1 match {
     case Some(x) => {
       val renderer = new Renderer
       var currentFrame = 0
@@ -49,7 +49,9 @@ object Engine extends JFXApp {
       
       mainLoopTimer.start()
     }
-    case None => println("Failed to load world")
+    case None => {
+      println("Failed to load world, reason: " + world._2)
+    }
   }
   
   def update(world: World, currentFrame: Int) = {
