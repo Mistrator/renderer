@@ -6,8 +6,12 @@
 \usepackage {amsthm}
 \usepackage {mathtools}
 \usepackage {graphicx}
+\usepackage {listings}
+\usepackage {xcolor}
 
 \newcommand{\textbi}[1]{\textit{\textbf{#1}}}
+
+\lstset{basicstyle=\ttfamily\footnotesize, keywordstyle=\color{blue}, commentstyle=\color{green}, breaklines=true, numbers=left, frame=single}
 
 \begin {document}
 
@@ -90,6 +94,26 @@ Luokka \textbf{Helpers} sisältää usein tarvittavia apufunktioita.
 \section {Tietorakenteet}
 
 \section {Tiedostot}
+
+Renderöitävä maailma ladataan \texttt{world}-nimisestä tekstitiedostosta, jonka rakenne on seuraava.
+
+Ensimmäisellä rivillä on 3 desimaalilukua: kameran $x$, $y$ ja $z$-koordinaatti alussa.
+
+Toisella rivillä on ei-negatiivinen kokonaisluku $n$: kappaleiden määrä.
+
+Seuraa $n$ kappaleen kuvausta. Kunkin kuvauksen rakenne on seuraava:
+
+Kuvauksen ensimmäisellä rivillä on kolme desimaalilukua $x$, $y$ ja $z$: kappaleen keskipisteen (model spacen origon) sijainti world spacessa.
+
+Kuvauksen toisella rivillä on ensin kappaleen tyyppi, joka on joko \texttt{SOLID} tai \texttt{WIREFRAME}. Tyypin jälkeen samalla rivillä on neljä kokonaislukua $r$, $g$, $b$, $a$ $(0 \leq r, g, b, a \leq 255)$, jotka kuvaavat kappaleen värin ja läpinäkyvyyden.
+
+Kuvauksen kolmannella rivillä on epänegatiivinen kokonaisluku $m$: kappaleen kolmioiden määrä.
+
+Seuraa $m$ riviä, joista kullakin on 9 desimaalilukua $x1$, $y1$, $z1$, $x2$, $y2$, $z2$, $x3$, $y3$ ja $z3$: kolmion verteksien koordinaatit.
+
+Esimerkki kelvollisesta tiedostosta, jossa on yksi yhdestä kolmiosta koostuva kappale:
+
+\lstinputlisting {example_world}
 
 \section {Testaus}
 
