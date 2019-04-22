@@ -4,28 +4,36 @@ import scala.io.Source
 import java.io.FileNotFoundException
 import scala.collection.mutable.Buffer
 
-/*
-	Level file format:
-	
-	<camera X> <camera Y> <camera Z>
-	<n: number of objects>
-	(n times)
-		<X> <Y> <Z> // world space coordinates
-		<material (SOLID/WIREFRAME)> <color R> <color G> <color B> <color A>
-		<m: number of triangles in current object>
-		(m times)
-		<t1x> <t1y> <t1z> <t2x> <t2y> <t2z> <t3x> <t3y> <t3z> // object space
+/**
+ * Load world from a file.
+ * 
+ *	Level file format:
+ *	
+ *	<camera X> <camera Y> <camera Z> // in world space
+ *	<n: number of objects>
+ *	(repeat n times)
+ *	  <X> <Y> <Z> // object center in world space
+ *		<material (SOLID/WIREFRAME)> <color R> <color G> <color B> <color A>
+ *		<m: number of triangles in current object>
+ *		(repeat m times)
+ *		  <t1x> <t1y> <t1z> <t2x> <t2y> <t2z> <t3x> <t3y> <t3z> // triangle vertex coordinates in object space
 */
 class WorldLoader {
   
-  // a way to make sure that a resource is closed after use
+  /**
+   * Make sure that a resource is closed after use
+   */
   private def using[A <: { def close(): Unit }, B](resource: A)(f: A => B): B =
     try {
       f(resource)
     } finally {
     resource.close()
   }
-    
+  
+  /**
+   * Try to parse the world from a file.
+   * If there is a problem, return None.  
+   */
   private def parseWorld(data: Array[String]) : (Option[World], String) = {
     try {
       val camPos = data(0).split(' ').map(_.toDouble)
@@ -101,6 +109,10 @@ class WorldLoader {
     }
   }
   
+  /**
+   * Try to load the world from a file.
+   * If there is a problem, return None and the reason for the failure.
+   */
   def loadWorld(filePath: String) : (Option[World], String) = {
     try {
       using(Source.fromFile(filePath)) { src => {

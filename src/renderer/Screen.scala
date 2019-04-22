@@ -12,33 +12,44 @@ import javafx.scene.effect.BlendMode
 import scala.math.max
 import scala.math.round
 
+/**
+ * Represents the visible 2d window on which the world is drawn.
+ */
 class Screen(width: Int, height: Int, scene: Scene) {
   
   val canvas = new Canvas(width, height)
   val gc = canvas.getGraphicsContext2D
   scene.content = canvas
   
-  // map coordinate from -1.0..1.0 to 0..(pixelDim-1)
-  def toPixelCoordinate(c: Double, pixelDim: Int) : Double = {
+  /**
+   * Map a coordinate from -1.0..1.0 to 0..(pixelDim-1)
+   */
+  private def toPixelCoordinate(c: Double, pixelDim: Int) : Double = {
     var nc = (c+1.0)/2.0 // map to 0..1
     return (nc*pixelDim)
   }
   
-  // clamp number to an interval
-  def clamp(x: Double, low: Double, high: Double) : Double = {
+  /**
+   * Clamp a number to an interval
+   */
+  private def clamp(x: Double, low: Double, high: Double) : Double = {
     if (x < low) return low
     if (x > high) return high
     return x
   }
   
-  // map a number from [origLow, origHigh] to [newLow, newHigh]
-  def mapToRange(x: Double, origLow: Double, origHigh: Double, newLow: Double, newHigh: Double) : Double = {
+  /**
+   * Map a number linearly from [origLow, origHigh] to [newLow, newHigh]
+   */
+  private def mapToRange(x: Double, origLow: Double, origHigh: Double, newLow: Double, newHigh: Double) : Double = {
     val slope = (newHigh-newLow) / (origHigh-origLow)
     return newLow + slope*(x-origLow)
   }
   
-  // map z coordinate from clip space back to screen space
-  def zInverse(z: Double, near: Double, far: Double) : Double = {
+  /**
+   * Map a z coordinate from clip space back to view space
+   */
+  private def zInverse(z: Double, near: Double, far: Double) : Double = {
     val pos = Vector4(0, 0, z)
     val invProjMat = Matrix4(Array(Array(1, 0, 0, 0), Array(0, 1, 0, 0),
         Array(0, 0, 0, 1), Array(0, 0, (near-far)/(2*far*near), (far+near)/(2*far*near))))
@@ -46,6 +57,10 @@ class Screen(width: Int, height: Int, scene: Scene) {
     return invPos.homogenize().z
   }
   
+  /**
+   * Draw triangles to screen.
+   * Triangles should be in clip space, so their x- and y-coordinates are in range [-1.0, 1.0].
+   */
   def drawImage(trig: Array[Triangle]) = {
     // reset the canvas
     gc.clearRect(0, 0, width, height)

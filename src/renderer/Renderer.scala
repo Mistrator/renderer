@@ -7,7 +7,7 @@ import java.lang.IllegalArgumentException
 
 class Renderer {
   
-  def buildProjectionMatrix(near: Double, far: Double) = {
+  private def buildProjectionMatrix(near: Double, far: Double) = {
       Matrix4(Array(Array(1, 0, 0, 0), Array(0, 1, 0, 0), 
         Array(0, 0, (far+near)/(far-near), -(2*far*near)/(far-near)), Array(0, 0, 1, 0)))
   }
@@ -23,6 +23,10 @@ class Renderer {
     return isectPoint
   }
   
+  /**
+   * Clip a triangle with a plane and return the clipped parts that are in the visible side.
+   * The plane normal points towards the visible side.
+   */
   private def clipTriangleWith(trg: Triangle, planePos: Vector4, planeNormal: Vector4) : Array[Triangle] = {
     val visible = Buffer[Vertex]()
     val invisible = Buffer[Vertex]()
@@ -85,6 +89,10 @@ class Renderer {
    return visible.toArray
   }
   
+  /**
+   * Project world's triangles to clip space and clip triangles to view volume.
+   * Returns an array of visible triangles sorted in the order they should be drawn.
+   */
   def render(world: World) : Array[Triangle] = {
     // map triangles to clip space
     val clipSpaceTrg = toClipSpace(world)
@@ -116,6 +124,9 @@ class Renderer {
     return false
   }
   
+  /**
+   * Project world's triangles from view space to clip space.
+   */
   private def toClipSpace(world: World) : Array[Triangle] = {
     val projMatrix = buildProjectionMatrix(Constants.NearPlane, Constants.FarPlane)
     val viewMatrix = world.camera.buildViewMatrix()

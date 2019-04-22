@@ -12,8 +12,8 @@ import scala.collection.mutable.Map
 import scala.math.Pi
 
 object Engine extends JFXApp {
-  val width = 1024
-  val height = 768
+  val width = Constants.WindowWidth
+  val height = Constants.WindowHeight
   
   stage = new JFXApp.PrimaryStage
   stage.title.value = "Renderer"
@@ -31,13 +31,12 @@ object Engine extends JFXApp {
   // is a certain key currently down
   val inputs = Map[KeyCode, Boolean]().withDefaultValue(false)
   
-  var exited = false
-  
   world._1 match {
     case Some(x) => {
       val renderer = new Renderer
       var currentFrame = 0
       
+      // listen to keyboard inputs
       scene.setOnKeyPressed(k => inputs(k.getCode) = true)
       scene.setOnKeyReleased(k => inputs(k.getCode) = false)
       
@@ -54,6 +53,9 @@ object Engine extends JFXApp {
     }
   }
   
+  /**
+   * Handle user input, alter object positions etc.
+   */
   def update(world: World, currentFrame: Int) = {
     // temp test
     world.objects(0).worldMatrix = WorldObject.buildWorldMatrix(Vector4(0, 4.87, 0), Vector4(0.0 + currentFrame / 200.0, 0.0 + currentFrame / 400.0, 0.0))
@@ -85,6 +87,7 @@ object Engine extends JFXApp {
       newCamPos += up * (-Constants.MovementSpeed)
     }
     
+    // collision detection
     if (!world.collides(newCamPos)) {
       world.camera.position = newCamPos
     }
@@ -110,8 +113,12 @@ object Engine extends JFXApp {
     }
   }
   
+  /**
+   * Draw the world to screen
+   */
   def draw(world: World, renderer: Renderer, screen: Screen) = {
     val rendVert = renderer.render(world)
     screen.drawImage(rendVert)
   }
 }
+

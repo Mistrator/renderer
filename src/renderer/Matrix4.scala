@@ -1,8 +1,11 @@
 package renderer
 
+/**
+ * Represents a 4x4-matrix.
+ */
 class Matrix4(val m: Array[Array[Double]]) {
   
-  def size = 4
+  val size = 4
 
   def apply(row: Int, col: Int) = m(row)(col)
   
@@ -10,7 +13,9 @@ class Matrix4(val m: Array[Array[Double]]) {
   
   def update(row: Int, col: Int, value: Double) = m(row)(col) = value
   
-  // check pairwise equality for elements taking floating-point imprecisions into account
+  /**
+   * Check pairwise equality of elements taking floating-point imprecisions into account
+   */
   override def equals(that: Any) : Boolean = {
     that match {
       case that: Matrix4 => {
@@ -79,8 +84,12 @@ object Matrix4 {
     new Matrix4(values)
   }
   
+  /**
+   * Create a zero matrix
+   */
   def apply() = new Matrix4(Array.ofDim[Double](4, 4))
   
   val identity = new Matrix4(Array(Array(1, 0, 0, 0), Array(0, 1, 0, 0), Array(0, 0, 1, 0), Array(0, 0, 0, 1)))
   
 }
+

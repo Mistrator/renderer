@@ -2,7 +2,9 @@ package renderer
 
 class Model(val mesh: Array[Triangle]) {
   
-  // set the color for all vertices of the mesh
+  /**
+   * Set the color for all vertices of the mesh
+   */
   def setColor(red: Int, green: Int, blue: Int, alpha: Int) = {
     for (i <- 0 until mesh.length) {
       val newVertices = Array.ofDim[Vertex](mesh(i).vertices.length)
@@ -13,7 +15,9 @@ class Model(val mesh: Array[Triangle]) {
     }
   }
   
-  // set the material for all triangles of the mesh
+  /**
+   * Set the material for all triangles of the mesh
+   */
   def setMaterial(material: MaterialType) = {
     for (i <- 0 until mesh.length) {
       mesh(i) = new Triangle(mesh(i).vertices, material)

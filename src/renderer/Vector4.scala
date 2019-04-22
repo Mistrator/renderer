@@ -3,6 +3,9 @@ package renderer
 import scala.math.sqrt
 import scala.math.abs
 
+/**
+ * Represents a 4-dimensional vector.
+ */
 class Vector4(val v : Array[Double]) {
   
   def size: Int = 4
@@ -14,6 +17,9 @@ class Vector4(val v : Array[Double]) {
   
   def apply(i: Int) = v(i)
   
+  /**
+   * Check for pairwise equality of elements taking floating-point imprecisions into account.
+   */
   override def equals(that: Any) : Boolean = {
     that match {
       case that: Vector4 => {
@@ -41,17 +47,24 @@ class Vector4(val v : Array[Double]) {
   
   def /(that: Double) = Vector4(this.x/that, this.y/that, this.z/that, this.w/that)
   
-  // dot product
+  /**
+   * Calculate the dot product of two vectors
+   */
   def *(that: Vector4) : Double = this.x*that.x + this.y*that.y + this.z*that.z + this.w*that.w
   
   def length : Double = sqrt(x*x + y*y + z*z + w*w)
   
-  // normalize to length 1
+  /**
+   * Normalize the vector so that its length is 1.
+   */
   def normalize() = {
     val len = length
     Vector4(x/len, y/len, z/len, w/len)
   }
   
+  /**
+   * Homogenize the vector by dividing all elements by abs(w)
+   */
   def homogenize() = {
     val div = abs(w) // divide by positive w to avoid mirroring issues when projecting vertices
     Vector4(x/div, y/div, z/div, 1)
@@ -75,7 +88,7 @@ object Vector4 {
   
   def apply(x: Double, y: Double, z: Double) = new Vector4(Array(x, y, z, 1.0))
   
-  def apply() = new Vector4(Array(0.0, 0.0, 0.0, 1.0))
+  def apply() = zero
   
   def zero = new Vector4(Array(0.0, 0.0, 0.0, 1.0))
 }

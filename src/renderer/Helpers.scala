@@ -6,14 +6,19 @@ import scala.math.cos
 
 object Helpers {
   
+  /**
+   * Check if two doubles are approximately equal
+   */
   def doubleEqual(first: Double, second: Double) = abs(first - second) < Constants.DoubleEps
   
-  // build a matrix that maps a vertex
-  // to desired position and orientation
-  // rotation is given in radians in Euler angles (x, y, z)
-  // the coordinate system is left-handed, so positive rotation is counter-clockwise when looking towards
-  // the positive direction of a coordinate axis
-  // construction using: http://www.opengl-tutorial.org/assets/faq_quaternions/index.html
+  /** 
+   *  Build a matrix that maps a vertex
+   *  to desired position and orientation.
+   *  Rotation is given in radians in Euler angles (x, y, z).
+   *  The coordinate system is left-handed, so positive rotation is counter-clockwise when looking towards
+   *  the positive direction of a coordinate axis.
+   *  Construction using: http://www.opengl-tutorial.org/assets/faq_quaternions/index.html
+   */
   def buildTransRotMatrix(position: Vector4, eulerRotation: Vector4) : (Matrix4, Matrix4) = {
     val a = cos(eulerRotation.x)
     val b = sin(eulerRotation.x)
