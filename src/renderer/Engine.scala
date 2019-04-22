@@ -58,7 +58,7 @@ object Engine extends JFXApp {
    */
   def update(world: World, currentFrame: Int) = {
     // temp test
-    world.objects(0).worldMatrix = WorldObject.buildWorldMatrix(Vector4(0, 4.87, 0), Vector4(0.0 + currentFrame / 200.0, 0.0 + currentFrame / 400.0, 0.0))
+    // world.objects(0).worldMatrix = WorldObject.buildWorldMatrix(Vector4(0, 4.87, 0), Vector4(0.0 + currentFrame / 200.0, 0.0 + currentFrame / 400.0, 0.0))
     
     val rotationMat = Helpers.buildTransRotMatrix(Vector4(), world.camera.orientation)._2 
     val forward = rotationMat * Vector4(0.0, 0.0, 1.0)

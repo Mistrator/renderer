@@ -140,6 +140,10 @@ Kun kameraa yritetään liikuttaa, lasketaan piste, johon kamera liikkeen jälke
 
 \section {Tietorakenteet}
 
+Ohjelma käyttää standardikirjaston tarjoamia tietorakenteita, kuten taulukoita, Buffereita ja Mappeja.
+
+Jos renderöintiä tai törmäyksentunnistusta haluttaisiin tehostaa, maailman objektit voitaisiin tallentaa esimerkiksi octreehen, jolloin läpikäytävien objektien määrää saataisiin vähennettyä keskimääräisessä tapauksessa.
+
 \section {Tiedostot}
 
 Renderöitävä maailma ladataan \texttt{world}-nimisestä tekstitiedostosta, jonka rakenne on seuraava.
@@ -172,7 +176,11 @@ WorldLoaderilla olisi voinut ja kannattaisikin olla yksikkötestit, mutta niiden
 
 \section {Puutteet ja viat}
 
-Kolmioita piirrettäessä z-järjestys ei ole aina täydellinen, eli joissakin tapauksissa toisen kolmion takana oleva kolmio voi näkyä sen edessä.
+Kolmioita piirrettäessä z-järjestys ei ole aina täydellinen, eli joissakin tapauksissa toisen kolmion takana oleva kolmio voi näkyä sen edessä. Tällä hetkellä järjestys on, että kolmiot, joiden kameraa lähin verteksi on kauimpana, piirretään ensin. Ongelmia tulee ainakin, jos jokin kolmio on osittain toisen edessä ja osittain toisen takana.
+
+Ongelman voisi ratkaista esimerkisi z-puskurilla, jossa jokaiselle pikselille pidetään yllä pienintä z-arvoa, johon kyseiseen pikseliin on tähän mennessä piirretty. Arvon perusteella voidaan määrittää, pitääkö kyseinen pikseli ylikirjoittaa uutta kolmiota piirrettäessä. Tällöin 2d-piirto pitäisi kuitenkin toteuttaa käsin pikseli pikseliltä ScalaFX:n primitiivien sijaan.
+
+WorldLoaderia ei ole testattu kunnolla: kelvollisen, ei-rajatapaustiedoston pitäisi latautua oikein, mutta on mahdollista, että lataus ei toimi oikein joissakin rajatapauksissa.
 
 \section {Parhaat ja heikoimmat kohdat}
 

@@ -109,8 +109,8 @@ class Renderer {
    * Compare triangles by their distance, one with first non-overlapping vertex that has larger z comes first
    */
   private def trgCompare(a: Triangle, b: Triangle) : Boolean = {
-    val zDistA = a.vertices.map(v => v.position.z).sortWith(_ > _)
-    val zDistB = b.vertices.map(v => v.position.z).sortWith(_ > _)
+    val zDistA = a.vertices.map(v => v.position.z).sorted
+    val zDistB = b.vertices.map(v => v.position.z).sorted
     
     for (i <- 0 until a.vertices.length) {
       val az = zDistA(i)
