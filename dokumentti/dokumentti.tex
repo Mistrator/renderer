@@ -91,6 +91,53 @@ Luokka \textbf{Helpers} sisältää usein tarvittavia apufunktioita.
 
 \section {Algoritmit}
 
+\subsection {Renderöinti}
+
+Ohjelma renderöi kolmioista koostuvia kappaleita rasteroimalla. Kolmioiden verteksit projisoidaan perspektiiviprojektiolla 2D-tasolle näytölle piirtämistä varten. Kolmiot piirretään järjestyksessä kauimmaisesta lähimpään, jolloin kappaleet peittävät niiden takana mahdollisesti olevat toiset kappaleet.
+
+Toinen vaihtoehto olisi voinut olla raycasting, jossa jokaista pikselien saraketta tai pikseliä kohtaan lähetetään kamerasta maailmaan säde, tarkastellaan, mihin kappaleeseen säde osuu ja värjätään pikseli tai sarake sen mukaan. Rasterointi on kuitenkin tehokkaampaa kuin raycasting ja se sallii kameran vapaan liikkeen ja mielivaltaisen maailman geometrian raycastingia helpommin.
+
+\subsubsection {Perspektiiviprojektio}
+
+Kamera on view spacen origossa osoittaen suuntaan $+z$ ja halutaan muodostaa projektio view spacesta tasolle $z = 1$. 
+
+Tarkastellaan projisoitavaa verteksiä $p$, jota kuvaa vektori $p = (x, y, z)$. Yksinkertainen ratkaisu on jakaa $p$ sen $z$-koordinaatilla, jolloin saadaan projektio $p' = (x/z, y/z, 1)$. Ongelmana on, että tämä projektio kadottaa kaiken informaation projisoitavien pisteiden $z$-koordinaateista, jolloin ei voida tietää, missä järjestyksessä kolmiot tulisi piirtää. Tarvitaan projektio, joka kuvaa $x$- ja $y$-koordinaatit vastaavasti kuin aiemmin, mutta säilyttää $z$-koordinaattien keskinäisen järjestyksen.
+
+Kameran näkemä avaruuden alue, eli \textit{view frustum} on kamerasta $+z$-suuntaan kasvava katkaistu pyramidi, joka rajoittuu päistään kahteen tasoon: \textit{near planeen} ja \textit{far planeen}, eli $z =\ $near ja $z =\ $far. View frustumin sisällä olevat verteksit ovat näkyvissä ja muut eivät. Halutaan projektio, joka kuvaa near planella olevan verteksin koordinaattiin $z = -1$, far planella olevan koordinaattiin $z = 1$ ja tasojen välissä olevat koordinaatit järjestyksessä välille $[-1, 1]$.
+
+Kun $p$ on homogeenisissä koordinaateissa, eli $p = (x, y, z, (w = 1))$, tällainen projektio saadaan aikaan 4x4-projektiomatriisilla:
+
+\[
+	p' = \begin{pmatrix}
+	1 & 0 & 0 & 0 \\
+	0 & 1 & 0 & 0 \\
+	0 & 0 & \frac{far+near}{far-near} & -\frac{2 \cdot far \cdot near}{far-near} \\
+	0 & 0 & 1 & 0
+	\end{pmatrix} \cdot p
+\]
+
+Projektiomatriisi kuvaa verteksin clip spaceen. Kuvauksen jälkeen koordinaatit homogenisoidaan, eli jaetaan sellaisella skalaarilla, että taas pätee $w = 1$. Ne verteksit, jotka olivat alun perin view frustumin sisällä, ovat projektion ja homogenisoinnin jälkeen $x, y \in [-1, 1], z \in [0, 1]$-suorakulmion sisällä ja muut sen ulkopuolella.
+
+Near plane tarvitaan, koska jos near $= 0$, $z$-informaatio menetetään kuvauksessa kuten aiemmin.
+
+\subsubsection {Kolmioiden leikkaus}
+
+Clip spacessa tarkastellaan, mitkä projisoiduista kolmioista ovat kameran näkökentässä, jotta tiedetään, mitä piirretään. Helppoja tapauksia ovat, jos kolmion kaikki verteksit ovat $x, y \in [-1, 1], z \in [0, 1]$-suorakulmion sisällä tai sen ulkopuolella: sisällä olevat kolmiot ovat kokonaan näkökentässä ja ne piirretään sellaisenaan, ulkona olevat eivät näy ja ne voidaan hylätä suoraan.
+
+Mielenkiintoinen tapaus on, jos osa kolmion vertekseistä on kuution sisällä ja osa kuution ulkopuolella. Kolmiota ei voi piirtää kokonaan, koska kaikki verteksit eivät ole näkyvissä, mutta ulkopuolella olevia verteksejä ei voi jättää piirtämättäkään, koska kolmio ei olisi tällöin hyvin määritelty.
+
+Kolmio leikataan tällöin osiin siten, että saadut osakolmiot ovat joko kokonaan näkyvissä tai näkymättömissä. Leikkaus tehdään yksi kerrallaan kuution kullekin sivulle. Voidaan laskea pisteet, jossa kolmion sivut leikkaavat tason, ja näistä pisteistä saadaan kolmiolle uudet kärkipisteet. Tasoja kuvataan yhden tason pisteen ja tason normaalivektorin avulla.
+
+\subsubsection {Projisoitujen kolmioiden piirto}
+
+Kuva saadaan näkyviin piirtämällä projisoidut kolmiot 2d-tasolle. Kun \textit{Rendereriltä} on saatu lista projisoiduista kolmioista image spacessa, verteksien koordinaatit muutetaan pikselikoordinaateiksi ja kolmiot piirretään $z$-järjestyksessä kaukaisimmasta lähimpään tasolle materiaali ja verteksien värit huomioiden.
+
+\subsection {Törmäyksentunnistus}
+
+Maailman kappaleilla on koordinaattiakselien suuntaiset suorakulmion muotoiset collision boxit, jotka ovat juuri niin isoja, että kaikki kappaleen verteksit mahtuvat sen sisälle.
+
+Kun kameraa yritetään liikuttaa, lasketaan piste, johon kamera liikkeen jälkeen päätyisi. Jos piste on jonkin kappaleen collision boxin sisällä, kameran ei anneta liikkua kyseiseen suuntaan.
+
 \section {Tietorakenteet}
 
 \section {Tiedostot}
@@ -116,6 +163,12 @@ Esimerkki kelvollisesta tiedostosta, jossa on yksi yhdestä kolmiosta koostuva k
 \lstinputlisting {example_world}
 
 \section {Testaus}
+
+Vektorien ja matriisien matemaattisilla operaatioilla on yksikkötestit.
+
+Renderöintiä ja piirtoa ei yksikkötestattu, koska ongelma on hyvin visuaalinen, ja ohjelmaa käyttämällä huomasi helpommin ja monipuolisemmin ongelmia ja puutteita kuin "tämän pikselin pitäisi olla punainen" -tyyppisillä yksikkötesteillä.
+
+WorldLoaderilla olisi voinut ja kannattaisikin olla yksikkötestit, mutta niiden lisäämiseen ei ollut aikaa.
 
 \section {Puutteet ja viat}
 
