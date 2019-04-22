@@ -9,7 +9,7 @@ class Model(val mesh: Array[Triangle]) {
     for (i <- 0 until mesh.length) {
       val newVertices = Array.ofDim[Vertex](mesh(i).vertices.length)
       for (j <- 0 until mesh(i).vertices.length) {
-        newVertices(i) = new Vertex(mesh(i).vertices(j).position, Vertex.packRGBA(red, green, blue, alpha))
+        newVertices(i) = new Vertex(mesh(i).vertices(j).position, red, green, blue, alpha)
       }
       mesh(i) = new Triangle(newVertices, mesh(i).material)
     }

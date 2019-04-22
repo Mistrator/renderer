@@ -47,7 +47,8 @@ class Renderer {
         val isectPoint2 = planeLineIntersection(visible(0).position, invisible(1).position - visible(0).position, planePos, planeNormal)
         
         // we could interpolate the vertex colors but this'll do for now
-        val clipped = new Triangle(Array(visible(0), new Vertex(isectPoint1, invisible(0).color), new Vertex(isectPoint2, invisible(1).color)), trg.material)
+        val clipped = new Triangle(Array(visible(0), new Vertex(isectPoint1, invisible(0).r, invisible(0).g, invisible(0).b, invisible(0).a), 
+            new Vertex(isectPoint2, invisible(1).r, invisible(1).g, invisible(1).b, invisible(1).a)), trg.material)
         return Array(clipped)
       }
       case 2 => {
@@ -56,8 +57,9 @@ class Renderer {
         
         // the triangle is split to two visible parts
         // again, we could interpolate the colors
-        val clipped1 = new Triangle(Array(visible(0), new Vertex(isectPoint1, invisible(0).color), new Vertex(isectPoint2, invisible(0).color)), trg.material)
-        val clipped2 = new Triangle(Array(visible(1), visible(0), new Vertex(isectPoint2, invisible(0).color)), trg.material)
+        val clipped1 = new Triangle(Array(visible(0), new Vertex(isectPoint1, invisible(0).r, invisible(0).g, invisible(0).b, invisible(0).a), 
+            new Vertex(isectPoint2, invisible(0).r, invisible(0).g, invisible(0).b, invisible(0).a)), trg.material)
+        val clipped2 = new Triangle(Array(visible(1), visible(0), new Vertex(isectPoint2, invisible(0).r, invisible(0).g, invisible(0).b, invisible(0).a)), trg.material)
         return Array(clipped1, clipped2)
       }
       case 3 => return Array(trg) // the triangle is completely visible
@@ -137,7 +139,7 @@ class Renderer {
       val worldMatrix = obj.worldMatrix
       for (trg <- obj.model.mesh) {
         val projTrg = trg * worldMatrix * viewMatrix * projMatrix
-        projected += new Triangle(projTrg.vertices.map(v => new Vertex(v.position.homogenize(), v.color)), projTrg.material)
+        projected += new Triangle(projTrg.vertices.map(v => new Vertex(v.position.homogenize(), v.r, v.g, v.b, v.a)), projTrg.material)
       }
     }
     

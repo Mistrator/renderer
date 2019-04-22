@@ -63,8 +63,6 @@ class WorldLoader {
         val b = appearance(3).toInt
         val alpha = appearance(4).toInt
         
-        val color = Vertex.packRGBA(r, g, b, alpha)
-        
         cline += 1
         val m = data(cline).toInt
         
@@ -76,9 +74,9 @@ class WorldLoader {
           if (coords.length != 9) {
             return (None, "Wrong number of vertex coordinates")
           }
-          val v0 = new Vertex(Vector4(coords.slice(0, 3)), color)
-          val v1 = new Vertex(Vector4(coords.slice(3, 6)), color)
-          val v2 = new Vertex(Vector4(coords.slice(6, 9)), color)
+          val v0 = new Vertex(Vector4(coords.slice(0, 3)), r, g, b, alpha)
+          val v1 = new Vertex(Vector4(coords.slice(3, 6)), r, g, b, alpha)
+          val v2 = new Vertex(Vector4(coords.slice(6, 9)), r, g, b, alpha)
           
           triangles += new Triangle(Array(v0, v1, v2), material)
         }
