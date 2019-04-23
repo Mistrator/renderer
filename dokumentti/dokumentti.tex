@@ -172,7 +172,7 @@ Esimerkki kelvollisesta tiedostosta, jossa on yksi yhdestä kolmiosta koostuva k
 
 Vektorien ja matriisien matemaattisilla operaatioilla on yksikkötestit.
 
-Renderöintiä ja piirtoa ei yksikkötestattu, koska ongelma on hyvin visuaalinen, ja ohjelmaa käyttämällä huomasi helpommin ja monipuolisemmin ongelmia ja puutteita kuin "tämän pikselin pitäisi olla punainen" -tyyppisillä yksikkötesteillä.
+Renderöintiä ja piirtoa ei yksikkötestattu, koska ongelma on hyvin visuaalinen, ja ohjelmaa käyttämällä huomasi helpommin ja monipuolisemmin ongelmia ja puutteita kuin "tämän pikselin pitäisi olla punainen"\ tyyppisillä yksikkötesteillä.
 
 WorldLoaderilla olisi voinut ja kannattaisikin olla yksikkötestit, mutta niiden lisäämiseen ei ollut aikaa.
 
@@ -182,15 +182,34 @@ Kolmioita piirrettäessä z-järjestys ei ole täydellinen, eli joissakin tapauk
 
 Ongelman voisi ratkaista esimerkisi z-puskurilla, jossa jokaiselle pikselille pidetään yllä pienintä z-arvoa, johon kyseiseen pikseliin on tähän mennessä piirretty. Arvon perusteella voidaan määrittää, pitääkö kyseinen pikseli ylikirjoittaa uutta kolmiota piirrettäessä. Tällöin 2d-piirto pitäisi kuitenkin toteuttaa käsin pikseli pikseliltä ScalaFX:n primitiivien sijaan.
 
-Kolmioiden väri määräytyy verteksien värien keskiarvona. Liukuvärjäys on mahdollinen, ja toteutinkin version, jossa kiinteiden kappaleiden pikselien värit määräytyvät gradienttina riippuen etäisyydestä nurkkapisteisiin, mutta piirto ScalaFX:n Canvasille osoittautui tällöin pullonkaulaksi.
-
 WorldLoaderia ei ole testattu kunnolla: kelvollisen, ei-rajatapaustiedoston pitäisi latautua oikein, mutta on mahdollista, että lataus ei toimi oikein joissakin rajatapauksissa.
 
 \section {Parhaat ja heikoimmat kohdat}
 
-Ohjelma toteuttaa renderöinnin yleisemmin kuin tehtävänannossa vaadittiin: kappaleiden muodot voivat olla mielivaltaisia ja ne voivat olla missä asennossa tahansa. Kameran liike on myös vapaata.
+\begin{itemize}
+	\item[+] Ohjelma toteuttaa renderöinnin yleisemmin kuin tehtävänannossa vaadittiin: kappaleiden muodot voivat olla mielivaltaisia ja ne voivat olla missä asennossa tahansa. Kameran liike on myös vapaata.
+	\item[--] Kolmioiden väri määräytyy verteksien värien keskiarvona. Liukuvärjäys on mahdollinen, ja toteutinkin version, jossa kiinteiden kappaleiden pikselien värit määräytyvät gradienttina riippuen etäisyydestä nurkkapisteisiin, mutta piirto ScalaFX:n Canvasille osoittautui tällöin pullonkaulaksi.
+\end{itemize}
+
 
 \section {Poikkeamat suunnitelmasta}
+
+Ohjelma toteutettiin lähes juurikin suunnitelman mukaan, törmäyksentunnistusta yksinkertaistettiin hieman, koska tarkempi järjestelmä ei ollut kovin relevantti projektin kannalta.
+
+Toteutusjärjestyksessä oli myös pieniä muutoksia. Oikea järjestys oli
+
+\begin{enumerate}
+	\item (01.03) Vektorit ja matriisit
+	\item (02.03) Vertex, Triangle, Model, WorldObject
+	\item (03.03) Camera, World
+	\item (15.03) Renderer
+	\item (21.03) Screen, ruudulle näkyviin asioita
+	\item (30.03) Main loop
+	\item (13.04) Kolmioiden leikkaus
+	\item (14.04) Törmäyksentunnistus
+\end{enumerate}
+
+eli ohjelman sai käyntiin suunniteltua myöhemmin.
 
 \section {Kokonaisarvio}
 
