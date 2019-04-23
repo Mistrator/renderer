@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018/Arch Linux) (preloaded format=pdflatex 2019.4.8)  23 APR 2019 15:51
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018/Arch Linux) (preloaded format=pdflatex 2019.4.8)  23 APR 2019 17:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -369,49 +369,86 @@ Overfull \hbox (11.33989pt too wide) in paragraph at lines 94--95
 []a oh-jel-man, luo k[]aytt[]oliittym[]an, kuun-te-lee k[]aytt[]aj[]an
  []
 
-[4] [5] [6] [7] (./example_world) [8]
-Overfull \hbox (9.83003pt too wide) in paragraph at lines 199--200
+[4]
+Overfull \hbox (3.55147pt too wide) in paragraph at lines 112--113
+\OT1/cmr/m/n/12 Verteksit kul-ke-vat vii-den eri koor-di-naa-tis-ton l[]api en-
+nen kuin ne ovat n[]akyviss[]a
+ []
+
+[5]
+Overfull \hbox (2.66113pt too wide) in paragraph at lines 118--119
+[]\OT1/cmr/m/n/12 Render[]oit[]aess[]a ha-lu-taan, ett[]a ka-me-ra on ori-gos-s
+a ja osoit-taa $+\OML/cmm/m/it/12 z$\OT1/cmr/m/n/12 -suuntaan,
+ []
+
+
+Overfull \hbox (3.23265pt too wide) in paragraph at lines 120--121
+[]\OT1/cmr/m/n/12 View spacen ver-tek-sit ku-va-taan ka-me-ran \OT1/cmr/m/it/12
+ pro-jec-tion mat-rixil-la \OT1/cmr/m/n/12 view spaces-
+ []
+
+
+Overfull \hbox (19.41112pt too wide) in paragraph at lines 122--123
+[]\OT1/cmr/m/n/12 Clip spaces-ta ver-tek-sit ku-vau-tu-vat \OT1/cmr/bx/it/12 im
+a-ge spaceen\OT1/cmr/m/n/12 , jos-sa $\OML/cmm/m/it/12 x$\OT1/cmr/m/n/12 - ja $
+\OML/cmm/m/it/12 y$\OT1/cmr/m/n/12 -koordinaatit
+ []
+
+[6] [7]
+Overfull \hbox (55.85039pt too wide) in paragraph at lines 171--172
+\OT1/cmr/m/n/12 ob-jek-tien m[]a[]ar[]a[]a saa-tai-siin v[]ahennetty[]a kes-kim
+[]a[]ar[]aisess[]a ta-pauk-ses-sa. T[]am[]anhetkisell[]a
+ []
+
+[8] (./example_world) [9]
+Overfull \hbox (9.83003pt too wide) in paragraph at lines 215--216
 \OT1/cmr/m/n/12 n[]aky[]a hyp-pyin[]a kol-mioi-den v[]arityksess[]a. Oi-keas-ti
  v[]arin pit[]aisi m[]a[]ar[]ayty[]a
  []
 
 
-Overfull \hbox (1.20149pt too wide) in paragraph at lines 200--201
+Overfull \hbox (1.20149pt too wide) in paragraph at lines 216--217
 []\OT1/cmr/m/n/12 Kappaleiden mah-dol-lis-ta lii-kett[]a tai py[]orimist[]a ei 
 pys-ty m[]a[]arittelem[]a[]an
  []
 
 
-Overfull \hbox (23.53174pt too wide) in paragraph at lines 206--207
+Overfull \hbox (21.05016pt too wide) in paragraph at lines 216--217
+\OT1/cmr/m/n/12 kap-pa-le-koh-tai-ses-ti \OT1/cmtt/m/n/12 World\OT1/cmr/m/n/12 
+-tiedostossa, ja en-simm[]aiseksi maa-il-maan lis[]att[]av[]a
+ []
+
+
+Overfull \hbox (23.53174pt too wide) in paragraph at lines 222--223
 \OT1/cmr/m/n/12 Ohjelma to-teu-tet-tiin l[]ahes juu-ri-kin suun-ni-tel-man mu-k
 aan, t[]orm[]ayksentunnistusta
  []
 
-[9]
-Overfull \hbox (13.61194pt too wide) in paragraph at lines 225--226
+[10]
+Overfull \hbox (13.61194pt too wide) in paragraph at lines 243--244
 \OT1/cmr/m/n/12 Mielest[]ani pro-jek-ti on-nis-tui oi-kein hy-vin. Teht[]av[]an
 annon vaa-ti-muk-set t[]ayttyv[]at
  []
 
 
-Overfull \hbox (9.3653pt too wide) in paragraph at lines 234--235
+Overfull \hbox (9.3653pt too wide) in paragraph at lines 252--253
 []\OT1/cmr/m/n/12 http://www.opengl-tutorial.org/beginners-tutorials/tutorial-3
 -matrices/ 
  []
 
 
-Overfull \hbox (58.6495pt too wide) in paragraph at lines 235--236
+Overfull \hbox (58.6495pt too wide) in paragraph at lines 253--254
 []\OT1/cmr/m/n/12 https://www.gabrielgambetta.com/computer-graphics-from-scratc
 h/clipping.html 
  []
 
 
-Overfull \hbox (12.89026pt too wide) in paragraph at lines 237--238
+Overfull \hbox (12.89026pt too wide) in paragraph at lines 255--256
 []\OT1/cmr/m/n/12 Scala docu-men-ta-tion https://www.scala-lang.org/api/current
 /index.html 
  []
 
-[10] (./dokumentti.aux) ) 
+[11] (./dokumentti.aux) ) 
 Here is how much of TeX's memory you used:
  5628 strings out of 492616
  75023 string characters out of 6135178
@@ -432,10 +469,10 @@ ts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/publi
 c/amsfonts/cm/cmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/c
 mti12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></us
 r/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on dokumentti.pdf (10 pages, 171881 bytes).
+Output written on dokumentti.pdf (11 pages, 176386 bytes).
 PDF statistics:
- 93 PDF objects out of 1000 (max. 8388607)
- 66 compressed objects within 1 object stream
+ 96 PDF objects out of 1000 (max. 8388607)
+ 68 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -24,7 +24,7 @@
 
 \section {Yleiskuvaus}
 
-Toteutin ohjelman, jolla voi renderöidä reaaliajassa kolmioista koostuvia maailmaan sijoitettuja kolmiulotteisia malleja. Mallit voivat olla mielivaltaisia, eivätkä ne ole rajoittuneita esimerkiksi pelkästään suorakulmaisiin seiniin. Mallin ympärillä voi liikkua vapaasti ja kameraa voi kääntää mielivaltaiseen suuntaan.
+Toteutin ohjelman, jolla voi renderöidä reaaliajassa kolmioista koostuvia maailmaan sijoitettuja kolmiulotteisia malleja. Mallit voivat olla mielivaltaisia, eivätkä ne ole rajoittuneita esimerkiksi pelkästään suorakulmaisiin seiniin. Mallin ympärillä voi liikkua vapaasti ja kameraa voi kääntää mielivaltaiseen suuntaan. Projektin taso on mielestäni vaativa.
 
 \section {Käyttöohje}
 
@@ -107,6 +107,22 @@ Ohjelma renderöi kolmioista koostuvia kappaleita rasteroimalla. Kolmioiden vert
 
 Toinen vaihtoehto olisi voinut olla raycasting, jossa jokaista pikselien saraketta tai pikseliä kohtaan lähetetään kamerasta maailmaan säde, tarkastellaan, mihin kappaleeseen säde osuu ja värjätään pikseli tai sarake sen mukaan. Rasterointi on kuitenkin tehokkaampaa kuin raycasting ja se sallii kameran vapaan liikkeen ja mielivaltaisen maailman geometrian raycastingia helpommin.
 
+\subsubsection {Koordinaatistot}
+
+Verteksit kulkevat viiden eri koordinaatiston läpi ennen kuin ne ovat näkyvissä näytöllä. Kuvaukset eri koordinaatistojen välillä tehdään kertomalla verteksien paikkavektoreita sopivilla matriiseilla. Käytetään homogeenisiä koordinaatteja, mikä tarkoittaa, että koordinaatit ja kuvaukset ovat yhtä ulottuvuutta korkeammassa avaruudessa, eli tässä tapauksessa neliulotteisessa. Tämä mahdollistaa tiettyjä kuvauksia (esim. translaatio), joita ei olisi mahdollista esittää 3D-avaruudessa 3x3-matriisilla. 
+
+Kaikilla kappaleilla on oma koordinaatistonsa, \textbi{object space}, jossa kappaleen muodostavat kolmiot on aseteltu paikalleen suhteessa kappaleen omaan origoon.
+
+Maailmalla on koordinaatisto, \textbi{world space}, joka kertoo, missä paikassa ja missä asennossa maailman kappaleet ovat suhteessa toisiinsa ja maailman origoon. Kunkin kappaleen verteksit kuvautuvat object spacesta world spaceen kappaleen omalla \textit{world matrixilla}, joka kertoo kappaleen paikan ja asennon avaruudessa.
+
+Renderöitäessä halutaan, että kamera on origossa ja osoittaa $+z$-suuntaan, koska laskenta helpottuu. Tämän takia käyttäjän liikkuessa kamera ei todellisuudessa liiku, vaan maailmaa liikutetaan ja käännetään päinvastaiseen suuntaan, mikä luo illuusion liikkeestä. Koordinaatistoa, jossa kamera on origossa ja kaikki muut verteksit on aseteltu paikoilleen suhteessa siihen, sanotaan \textbi{view spaceksi}. Kameralla on \textit{view matrix}, joka kuvaa verteksit world spacesta view spaceen. View matrix rakennetaan siten, että se vastaa käyttäjän näennäistä sijaintia maailmassa.
+
+View spacen verteksit kuvataan kameran \textit{projection matrixilla} view spacesta \textbi{clip spaceen}, jossa verteksien $x$- ja $y$-koordinaatit on projisoitu perspektiiviprojektion mukaisesti välille $[-1, 1]$, mutta verteksien keskinäinen $z$-järjestys säilyy edelleen. Syvyysinformaatiota ei siis ole vielä clip spacessa menetetty. Clip spacessa hoidetaan verteksien näkyvyystarkastelu ja osittain näkyvissä olevien kolmioiden leikkaus.
+
+Clip spacesta verteksit kuvautuvat \textbi{image spaceen}, jossa $x$- ja $y$-koordinaatit ovat samat kuin clip spacessa, mutta kaikki verteksit on litistetty $z = 1$-tasolle. Image spacessa verteksit ovat 2D-tasolla ja näin valmiita ruudulle piirtoa varten, mutta koordinaatit eivät vielä vastaa pikselikoordinaatteja.
+
+Jotta kuvan voisi piirtää, välin $[-1, 1]$ liukulukukoordinaatit täytyy vielä kuvata vastaamaan diskreettejä näytön pikseleitä. 
+
 \subsubsection {Perspektiiviprojektio}
 
 Kamera on view spacen origossa osoittaen suuntaan $+z$ ja halutaan muodostaa projektio view spacesta tasolle $z = 1$. 
@@ -134,13 +150,13 @@ Near plane tarvitaan, koska jos near $= 0$, $z$-informaatio menetetään kuvauks
 
 Clip spacessa tarkastellaan, mitkä projisoiduista kolmioista ovat kameran näkökentässä. Helppoja tapauksia ovat, jos kolmion kaikki verteksit ovat $x, y \in [-1, 1], z \in [0, 1]$-suorakulmion sisällä tai sen ulkopuolella: sisällä olevat kolmiot ovat kokonaan näkökentässä ja ne piirretään sellaisenaan, ulkona olevat eivät näy ja ne voidaan jättää piirtämättä suoraan.
 
-Mielenkiintoinen tapaus on, jos osa kolmion vertekseistä on kuution sisällä ja osa kuution ulkopuolella. Kolmiota ei voi piirtää kokonaan, koska kaikki verteksit eivät ole näkyvissä, mutta ulkopuolella olevia verteksejä ei voi jättää huomiottakaan, koska verteksit määrittelevät kolmion sivut.
+Monimutkaisempi tapaus on, jos osa kolmion vertekseistä on kuution sisällä ja osa kuution ulkopuolella. Kolmiota ei voi piirtää kokonaan, koska kaikki verteksit eivät ole näkyvissä, mutta ulkopuolella olevia verteksejä ei voi jättää huomiottakaan, koska verteksit määrittelevät kolmion sivut.
 
-Kolmio leikataan tällöin osiin siten, että saadut osakolmiot ovat joko kokonaan näkyvissä tai näkymättömissä. Leikkaus toistetaan view volumen kullekin sivulle. Voidaan laskea pisteet, jossa kolmion sivut leikkaavat tason, ja näistä pisteistä saadaan kolmiolle uudet kärkipisteet. Tasoja kuvataan yhden tason pisteen ja tason normaalivektorin avulla, ja kolmion sivuja vastaavasti vektorimuodossa kärkipisteen ja sivun suuntavektorin avulla.
+Kolmio leikataan tällöin osiin siten, että saadut pienemmät kolmiot ovat joko kokonaan näkyvissä tai näkymättömissä. Leikkaus toistetaan view volumen kullekin sivulle. Tasoja kuvataan yhden tason pisteen ja tason normaalivektorin avulla, ja kolmion sivuja vastaavasti vektorimuodossa kärkipisteen ja sivun suuntavektorin avulla. Nyt uusien kolmioiden kärkipisteet saadaan laskemalla vektorisuoran ja tason leikkauspiste.
 
 \subsubsection {Projisoitujen kolmioiden piirto}
 
-Kuva saadaan näkyviin piirtämällä projisoidut kolmiot 2d-tasolle. Kun \textit{Rendereriltä} on saatu lista projisoiduista kolmioista, jotka ovat image spacessa, verteksien koordinaatit muutetaan pikselikoordinaateiksi ja kolmiot piirretään $z$-järjestyksessä kaukaisimmasta lähimpään tasolle materiaali ja verteksien värit huomioiden.
+Kuva saadaan näkyviin piirtämällä projisoidut kolmiot 2d-tasolle. Kun \textit{Rendereriltä} on saatu lista projisoiduista kolmioista, jotka ovat image spacessa, verteksien koordinaatit muutetaan pikselikoordinaateiksi ja kolmiot piirretään $z$-järjestyksessä kaukaisimmasta lähimpään tasolle materiaalit ja verteksien värit huomioiden.
 
 \subsection {Törmäyksentunnistus}
 
@@ -150,9 +166,9 @@ Kun kameraa yritetään liikuttaa, lasketaan piste, johon kamera liikkeen jälke
 
 \section {Tietorakenteet}
 
-Ohjelma käyttää standardikirjaston tarjoamia tietorakenteita, kuten taulukoita, Buffereita ja Mappeja.
+Ohjelma käyttää standardikirjaston tarjoamia tietorakenteita, kuten taulukoita, Buffereita ja Mappeja. Maailman datan tallennuksessa käytetään pääasiassa muuttumattomia tietorakenteita.
 
-Jos renderöintiä tai törmäyksentunnistusta haluttaisiin tehostaa, maailman objektit voitaisiin tallentaa esimerkiksi octreehen, jolloin läpikäytävien objektien määrää saataisiin vähennettyä keskimääräisessä tapauksessa.
+Jos renderöintiä tai törmäyksentunnistusta haluttaisiin tehostaa, maailman objektit voitaisiin tallentaa esimerkiksi octreehen, jolloin läpikäytävien objektien määrää saataisiin vähennettyä keskimääräisessä tapauksessa. Tämänhetkisellä objektien määrällä sille ei ole kuitenkaan tarvetta.
 
 \section {Tiedostot}
 
@@ -197,13 +213,13 @@ WorldLoaderia ei ole testattu kunnolla: kelvollisen, ei-rajatapaustiedoston pit�
 \begin{itemize}
 	\item[+] Ohjelma toteuttaa renderöinnin yleisemmin kuin tehtävänannossa vaadittiin: kappaleiden muodot voivat olla mielivaltaisia, ne voivat olla missä asennossa tahansa ja voivat pyöriä. Kamera voi myös liikkua vapaasti avaruudessa.
 	\item[--] Kolmioiden väri määräytyy verteksien värien keskiarvona, mikä voi näkyä hyppyinä kolmioiden värityksessä. Oikeasti värin pitäisi määräytyä liukuvasti riippuen etäisyydestä kolmion vertekseihin. Toteutinkin version, jossa kiinteiden kappaleiden pikselien värit määräytyvät gradienttina, mutta piirto ScalaFX:n Canvasille osoittautui tällöin pullonkaulaksi.
-	\item[--] Kappaleiden mahdollista liikettä tai pyörimistä ei pysty määrittelemään kappalekohtaisesti \texttt{World}-tiedostossa, ja maailman ensimmäinen kappale on tällä hetkellä kovakoodattu pyöriväksi demotarkoituksia varten \textit{Engine}-luokassa.
+	\item[--] Kappaleiden mahdollista liikettä tai pyörimistä ei pysty määrittelemään kappalekohtaisesti \texttt{World}-tiedostossa, ja ensimmäiseksi maailmaan lisättävä kappale on tällä hetkellä kovakoodattu pyöriväksi demotarkoituksia varten \textit{Engine}-luokassa.
 \end{itemize}
 
 
 \section {Poikkeamat suunnitelmasta}
 
-Ohjelma toteutettiin lähes juurikin suunnitelman mukaan, törmäyksentunnistusta yksinkertaistettiin hieman, koska tarkempi järjestelmä ei ollut kovin relevantti projektin kannalta.
+Ohjelma toteutettiin lähes juurikin suunnitelman mukaan, törmäyksentunnistusta yksinkertaistettiin hieman, koska tarkempi tunnistus ei ollut kovin relevantti projektin kannalta.
 
 Toteutusjärjestyksessä oli myös pieniä muutoksia. Oikea järjestys oli
 
@@ -219,6 +235,8 @@ Toteutusjärjestyksessä oli myös pieniä muutoksia. Oikea järjestys oli
 \end{enumerate}
 
 eli käynnistysohjelma toteutettiin suunniteltua myöhemmin.
+
+Aikataulu toteutui melko lailla suunnitellusti. Jotkin vaiheet, kuten kolmioiden leikkaus, veivät hieman enemmän aikaa, jota kului esim. tiedon etsimiseen. Jotkin olivat taas odotettua nopeampia, kuten törmäyksentunnistus.
 
 \section {Kokonaisarvio}
 

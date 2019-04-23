@@ -8,15 +8,16 @@
 \contentsline {subsection}{\numberline {3.4}Muut luokat}{5}% 
 \contentsline {section}{\numberline {4}Algoritmit}{5}% 
 \contentsline {subsection}{\numberline {4.1}Render\IeC {\"o}inti}{5}% 
-\contentsline {subsubsection}{\numberline {4.1.1}Perspektiiviprojektio}{5}% 
-\contentsline {subsubsection}{\numberline {4.1.2}Kolmioiden leikkaus}{6}% 
-\contentsline {subsubsection}{\numberline {4.1.3}Projisoitujen kolmioiden piirto}{7}% 
-\contentsline {subsection}{\numberline {4.2}T\IeC {\"o}rm\IeC {\"a}yksentunnistus}{7}% 
-\contentsline {section}{\numberline {5}Tietorakenteet}{7}% 
-\contentsline {section}{\numberline {6}Tiedostot}{7}% 
-\contentsline {section}{\numberline {7}Testaus}{8}% 
-\contentsline {section}{\numberline {8}Puutteet ja viat}{8}% 
-\contentsline {section}{\numberline {9}Parhaat ja heikoimmat kohdat}{9}% 
-\contentsline {section}{\numberline {10}Poikkeamat suunnitelmasta}{9}% 
-\contentsline {section}{\numberline {11}Kokonaisarvio}{10}% 
-\contentsline {section}{\numberline {12}Viitteet}{10}% 
+\contentsline {subsubsection}{\numberline {4.1.1}Koordinaatistot}{5}% 
+\contentsline {subsubsection}{\numberline {4.1.2}Perspektiiviprojektio}{6}% 
+\contentsline {subsubsection}{\numberline {4.1.3}Kolmioiden leikkaus}{7}% 
+\contentsline {subsubsection}{\numberline {4.1.4}Projisoitujen kolmioiden piirto}{8}% 
+\contentsline {subsection}{\numberline {4.2}T\IeC {\"o}rm\IeC {\"a}yksentunnistus}{8}% 
+\contentsline {section}{\numberline {5}Tietorakenteet}{8}% 
+\contentsline {section}{\numberline {6}Tiedostot}{8}% 
+\contentsline {section}{\numberline {7}Testaus}{9}% 
+\contentsline {section}{\numberline {8}Puutteet ja viat}{9}% 
+\contentsline {section}{\numberline {9}Parhaat ja heikoimmat kohdat}{10}% 
+\contentsline {section}{\numberline {10}Poikkeamat suunnitelmasta}{10}% 
+\contentsline {section}{\numberline {11}Kokonaisarvio}{11}% 
+\contentsline {section}{\numberline {12}Viitteet}{11}% 
