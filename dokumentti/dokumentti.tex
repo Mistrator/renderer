@@ -176,13 +176,17 @@ WorldLoaderilla olisi voinut ja kannattaisikin olla yksikkötestit, mutta niiden
 
 \section {Puutteet ja viat}
 
-Kolmioita piirrettäessä z-järjestys ei ole aina täydellinen, eli joissakin tapauksissa toisen kolmion takana oleva kolmio voi näkyä sen edessä. Tällä hetkellä järjestys on, että kolmiot, joiden kameraa lähin verteksi on kauimpana, piirretään ensin. Ongelmia tulee ainakin, jos jokin kolmio on osittain toisen edessä ja osittain toisen takana.
+Kolmioita piirrettäessä z-järjestys ei ole täydellinen, eli joissakin tapauksissa toisen kolmion takana oleva kolmio voi näkyä sen edessä. Tällä hetkellä järjestys on, että kolmiot, joiden kameraa lähin verteksi on kauimpana, piirretään ensin. Ongelmia tulee ainakin, jos jokin kolmio on osittain toisen edessä ja osittain toisen takana.
 
 Ongelman voisi ratkaista esimerkisi z-puskurilla, jossa jokaiselle pikselille pidetään yllä pienintä z-arvoa, johon kyseiseen pikseliin on tähän mennessä piirretty. Arvon perusteella voidaan määrittää, pitääkö kyseinen pikseli ylikirjoittaa uutta kolmiota piirrettäessä. Tällöin 2d-piirto pitäisi kuitenkin toteuttaa käsin pikseli pikseliltä ScalaFX:n primitiivien sijaan.
+
+Kolmioiden väri määräytyy verteksien värien keskiarvona. Liukuvärjäys on mahdollinen, ja toteutinkin version, jossa kiinteiden kappaleiden pikselien värit määräytyvät gradienttina riippuen etäisyydestä nurkkapisteisiin, mutta piirto ScalaFX:n Canvasille osoittautui tällöin pullonkaulaksi.
 
 WorldLoaderia ei ole testattu kunnolla: kelvollisen, ei-rajatapaustiedoston pitäisi latautua oikein, mutta on mahdollista, että lataus ei toimi oikein joissakin rajatapauksissa.
 
 \section {Parhaat ja heikoimmat kohdat}
+
+Ohjelma toteuttaa renderöinnin yleisemmin kuin tehtävänannossa vaadittiin: kappaleiden muodot voivat olla mielivaltaisia ja ne voivat olla missä asennossa tahansa. Kameran liike on myös vapaata.
 
 \section {Poikkeamat suunnitelmasta}
 
