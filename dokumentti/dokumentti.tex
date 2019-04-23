@@ -15,7 +15,7 @@
 
 \begin {document}
 
-\title {Projektin dokumentti}
+\title {CS-C2120 projektidokumentti: \\ 3D-visualisointi}
 \author {Miska Kananen (652102, TiK, 1.vk)}
 \date {\today}
 \maketitle
@@ -28,7 +28,7 @@ Toteutin ohjelman, jolla voi renderöidä reaaliajassa kolmioista koostuvia maai
 
 \section {Käyttöohje}
 
-Kun ohjelma käynnistetään, se lataa mallinnettavan maailman \texttt{world}-nimisestä tekstitiedostosta ohjelman juurikansiosta. Jos lataaminen epäonnistuu, tulostuu tieto tästä standarditulosteeseen.
+Luokka \textit{Engine} toimii ohjelman käynnistysoliona. Kun ohjelma käynnistetään, se lataa mallinnettavan maailman \texttt{world}-nimisestä tekstitiedostosta ohjelman juurikansiosta. Jos lataaminen epäonnistuu, tulostuu tieto tästä standarditulosteeseen.
 
 Kameraa voi liikuttaa eteen, taakse ja sivuille \texttt{W, A, S, D}-näppäimillä. \texttt{Q} ja \texttt{Z} liikuttavat kameraa ylös ja alas. Nuolinäppäimet kääntävät kameraa.
 
@@ -83,7 +83,7 @@ Luokka \textit{\textbf{Camera}} määrittää, mistä paikasta maailmaa tarkaste
 	\item metodi view matrixin rakentamiseen siten, että kamera on maailmaan nähden halutussa paikassa ja osoittaa haluttuun suuntaan
 \end{itemize}
 
-Luokka \textit{\textbf{Renderer}} ottaa renderöitäväksi \textbf{Worldin} ja kuvaa sen \textbf{Modeleiden} verteksit \textit{Cameran} view spacesta clip spaceen, eli koordinaatistoon, jossa tarkastellaan verteksien näkyvyyttä. Tämän jälkeen \textit{Renderer} selvittää, mitkä \textit{Triangleista} ovat kameran näkökentässä, hylkää sen ulkopuolella olevat, leikkaa sopivasti osittain näkyvissä olevia ja lopulta projisoi koko näkymän clip spacesta image spaceen, eli kaksiulotteiselle tasolle. \textit{Renderer} luo $z$-koordinaatin mukaan järjestetyn listan piirrettävistä \textit{Triangleista}, jotka on projisoitu perspektiiviprojektiolla $xy$-tasolle siten, että niiden $x$- ja $y$-koordinaatit on normalisoitu välille $[-1.0, 1.0]$.
+Luokka \textit{\textbf{Renderer}} ottaa renderöitäväksi \textit{Worldin} ja kuvaa sen \textit{Modeleiden} verteksit \textit{Cameran} view spacesta clip spaceen, eli koordinaatistoon, jossa tarkastellaan verteksien näkyvyyttä. Tämän jälkeen \textit{Renderer} selvittää, mitkä \textit{Triangleista} ovat kameran näkökentässä, hylkää sen ulkopuolella olevat, leikkaa sopivasti osittain näkyvissä olevia ja lopulta projisoi koko näkymän clip spacesta image spaceen, eli kaksiulotteiselle tasolle. \textit{Renderer} luo $z$-koordinaatin mukaan järjestetyn listan piirrettävistä \textit{Triangleista}, jotka on projisoitu perspektiiviprojektiolla $xy$-tasolle siten, että niiden $x$- ja $y$-koordinaatit on normalisoitu välille $[-1.0, 1.0]$.
 
 \subsection {Piirto ruudulle}
 
@@ -222,6 +222,9 @@ eli käynnistysohjelma toteutettiin suunniteltua myöhemmin.
 
 \section {Kokonaisarvio}
 
+Mielestäni projekti onnistui oikein hyvin. Tehtävänannon vaatimukset täyttyvät ja ohjelma toteuttaa yleisemmän version renderöinnistä kuin vaadittiin. Tulevaisuudessa ohjelmaan voisi toteuttaa vielä z-puskuroinnin, jotta kolmiot piirtyisivät oikeassa järjestyksessä myös haastavissa tapauksissa.
+
+Ohjelma on helposti muokattavissa ja laajennettavissa: maailman esitystapa, renderöinti ja piirto ruudulle ovat omia, erillisiä komponenttejaan, ja niitä voisi periaatteessa hyödyntää erillisinä sellaisenaan jossakin toisessa ohjelmassa.
 
 \section {Viitteet}
 

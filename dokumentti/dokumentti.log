@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018/Arch Linux) (preloaded format=pdflatex 2019.4.8)  23 APR 2019 14:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018/Arch Linux) (preloaded format=pdflatex 2019.4.8)  23 APR 2019 15:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -319,27 +319,25 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 21.
 
 (/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) (./dokumentti.toc)
+) (./dokumentti.toc [1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}])
 \tf@toc=\write3
 \openout3 = `dokumentti.toc'.
 
 
-Overfull \hbox (10.27527pt too wide) in paragraph at lines 31--32
-\OT1/cmr/m/n/12 Kun oh-jel-ma k[]aynnistet[]a[]an, se la-taa mal-lin-net-ta-van
- maa-il-man \OT1/cmtt/m/n/12 world\OT1/cmr/m/n/12 -nimisest[]a
+Overfull \hbox (4.53778pt too wide) in paragraph at lines 31--32
+\OT1/cmr/m/n/12 Luokka \OT1/cmr/m/it/12 En-gi-ne \OT1/cmr/m/n/12 toi-mii oh-jel
+-man k[]aynnistysoliona. Kun oh-jel-ma k[]aynnistet[]a[]an,
  []
 
-[1
-
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 LaTeX Font Info:    Try loading font information for OMS+cmr on input line 45.
-
 (/usr/share/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 45.
-
+ [2]
 Overfull \hbox (2.5935pt too wide) in paragraph at lines 49--50
 []\OT1/cmr/m/n/12 Luokka \OT1/cmr/bx/it/12 Triangle \OT1/cmr/m/n/12 ku-vaa kol-
 mes-ta \OT1/cmr/m/it/12 Ver-texist[]a \OT1/cmr/m/n/12 koos-tu-vaa kol-mio-ta. \
@@ -352,13 +350,26 @@ Overfull \hbox (33.17738pt too wide) in paragraph at lines 66--67
  jo-ka ku-vaa kap-pa-leen muo-toa t[]orm[]aystunnistuksen
  []
 
-[2] [3]
+[3]
+Overfull \hbox (6.62497pt too wide) in paragraph at lines 86--87
+\OT1/cmr/m/n/12 vat, leik-kaa so-pi-vas-ti osit-tain n[]akyviss[]a ole-via ja l
+o-pul-ta pro-ji-soi ko-ko n[]akym[]an
+ []
+
+
+Overfull \hbox (20.7443pt too wide) in paragraph at lines 86--87
+\OT1/cmr/m/n/12 pro-ji-soi-tu pers-pek-tii-vi-pro-jek-tiol-la $\OML/cmm/m/it/12
+ xy$\OT1/cmr/m/n/12 -tasolle si-ten, ett[]a nii-den $\OML/cmm/m/it/12 x$\OT1/cm
+r/m/n/12 - ja $\OML/cmm/m/it/12 y$\OT1/cmr/m/n/12 -koordinaatit
+ []
+
+
 Overfull \hbox (11.33989pt too wide) in paragraph at lines 94--95
 \OT1/cmr/m/n/12 Luokka \OT1/cmr/bx/it/12 En-gi-ne \OT1/cmr/m/n/12 k[]aynnist[]a
 []a oh-jel-man, luo k[]aytt[]oliittym[]an, kuun-te-lee k[]aytt[]aj[]an
  []
 
-[4] [5] [6] (./example_world) [7]
+[4] [5] [6] [7] (./example_world) [8]
 Overfull \hbox (9.83003pt too wide) in paragraph at lines 199--200
 \OT1/cmr/m/n/12 n[]aky[]a hyp-pyin[]a kol-mioi-den v[]arityksess[]a. Oi-keas-ti
  v[]arin pit[]aisi m[]a[]ar[]ayty[]a
@@ -376,25 +387,31 @@ Overfull \hbox (23.53174pt too wide) in paragraph at lines 206--207
 aan, t[]orm[]ayksentunnistusta
  []
 
-[8]
-Overfull \hbox (9.3653pt too wide) in paragraph at lines 230--231
+[9]
+Overfull \hbox (13.61194pt too wide) in paragraph at lines 225--226
+\OT1/cmr/m/n/12 Mielest[]ani pro-jek-ti on-nis-tui oi-kein hy-vin. Teht[]av[]an
+annon vaa-ti-muk-set t[]ayttyv[]at
+ []
+
+
+Overfull \hbox (9.3653pt too wide) in paragraph at lines 234--235
 []\OT1/cmr/m/n/12 http://www.opengl-tutorial.org/beginners-tutorials/tutorial-3
 -matrices/ 
  []
 
 
-Overfull \hbox (58.6495pt too wide) in paragraph at lines 231--232
+Overfull \hbox (58.6495pt too wide) in paragraph at lines 235--236
 []\OT1/cmr/m/n/12 https://www.gabrielgambetta.com/computer-graphics-from-scratc
 h/clipping.html 
  []
 
 
-Overfull \hbox (12.89026pt too wide) in paragraph at lines 233--234
+Overfull \hbox (12.89026pt too wide) in paragraph at lines 237--238
 []\OT1/cmr/m/n/12 Scala docu-men-ta-tion https://www.scala-lang.org/api/current
 /index.html 
  []
 
-[9] (./dokumentti.aux) ) 
+[10] (./dokumentti.aux) ) 
 Here is how much of TeX's memory you used:
  5628 strings out of 492616
  75023 string characters out of 6135178
@@ -403,22 +420,22 @@ Here is how much of TeX's memory you used:
  13446 words of font info for 52 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,7n,35p,796b,1015s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb></
-usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.
-pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-dist/font
-s/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-ti12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr
-/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on dokumentti.pdf (9 pages, 168312 bytes).
+</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><
+/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12
+.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/shar
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mti12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></us
+r/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on dokumentti.pdf (10 pages, 171881 bytes).
 PDF statistics:
- 90 PDF objects out of 1000 (max. 8388607)
- 64 compressed objects within 1 object stream
+ 93 PDF objects out of 1000 (max. 8388607)
+ 66 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
