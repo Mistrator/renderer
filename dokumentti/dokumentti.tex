@@ -34,6 +34,8 @@ Kameraa voi liikuttaa eteen, taakse ja sivuille \texttt{W, A, S, D}-näppäimill
 
 \section {Ohjelman rakenne}
 
+Ohjelma on jaettu komponentteihin siten, että maailman tila, renderöinti ja ruudulle piirto ovat omina erillisinä komponentteinaan.
+
 Luokka \textit{\textbf{Vertex}} kuvaa kolmion nurkkapistettä. Kullakin \textit{Vertexillä} on:
 \begin{itemize}
 	\item sijainti object spacessa (yksittäisen kappaleen omassa koordinaatistossa)
@@ -103,7 +105,7 @@ Kamera on view spacen origossa osoittaen suuntaan $+z$ ja halutaan muodostaa pro
 
 Tarkastellaan projisoitavaa verteksiä $p$, jota kuvaa vektori $p = (x, y, z)$. Yksinkertainen ratkaisu on jakaa $p$ sen $z$-koordinaatilla, jolloin saadaan projektio $p' = (x/z, y/z, 1)$. Ongelmana on, että tämä projektio kadottaa kaiken informaation projisoitavien pisteiden $z$-koordinaateista, jolloin ei voida tietää, missä järjestyksessä kolmiot tulisi piirtää. Tarvitaan projektio, joka kuvaa $x$- ja $y$-koordinaatit vastaavasti kuin aiemmin, mutta säilyttää $z$-koordinaattien keskinäisen järjestyksen.
 
-Kameran näkemä avaruuden alue, eli \textit{view frustum} on kamerasta $+z$-suuntaan kasvava katkaistu pyramidi, joka rajoittuu päistään kahteen tasoon: \textit{near planeen} ja \textit{far planeen}, eli $z =\ $near ja $z =\ $far. View frustumin sisällä olevat verteksit ovat näkyvissä ja muut eivät. Halutaan projektio, joka kuvaa near planella olevan verteksin koordinaattiin $z = -1$, far planella olevan koordinaattiin $z = 1$ ja tasojen välissä olevat koordinaatit järjestyksessä välille $[-1, 1]$.
+Kameran näkemä avaruuden alue, eli \textit{view frustum} on kamerasta $+z$-suuntaan kasvava katkaistu pyramidi, joka rajoittuu päistään kahteen tasoon: \textit{near planeen} ja \textit{far planeen}, eli $z =\ $near ja $z =\ $far. View frustumin sisällä olevat verteksit ovat näkyvissä ja muut eivät. Halutaan projektio, joka kuvaa near planella olevan verteksin koordinaattiin $z = 0$, far planella olevan koordinaattiin $z = 1$ ja tasojen välissä olevat koordinaatit järjestyksessä välille $[0, 1]$.
 
 Kun $p$ on homogeenisissä koordinaateissa, eli $p = (x, y, z, (w = 1))$, tällainen projektio saadaan aikaan 4x4-projektiomatriisilla:
 
@@ -122,15 +124,15 @@ Near plane tarvitaan, koska jos near $= 0$, $z$-informaatio menetetään kuvauks
 
 \subsubsection {Kolmioiden leikkaus}
 
-Clip spacessa tarkastellaan, mitkä projisoiduista kolmioista ovat kameran näkökentässä, jotta tiedetään, mitä piirretään. Helppoja tapauksia ovat, jos kolmion kaikki verteksit ovat $x, y \in [-1, 1], z \in [0, 1]$-suorakulmion sisällä tai sen ulkopuolella: sisällä olevat kolmiot ovat kokonaan näkökentässä ja ne piirretään sellaisenaan, ulkona olevat eivät näy ja ne voidaan hylätä suoraan.
+Clip spacessa tarkastellaan, mitkä projisoiduista kolmioista ovat kameran näkökentässä. Helppoja tapauksia ovat, jos kolmion kaikki verteksit ovat $x, y \in [-1, 1], z \in [0, 1]$-suorakulmion sisällä tai sen ulkopuolella: sisällä olevat kolmiot ovat kokonaan näkökentässä ja ne piirretään sellaisenaan, ulkona olevat eivät näy ja ne voidaan jättää piirtämättä suoraan.
 
-Mielenkiintoinen tapaus on, jos osa kolmion vertekseistä on kuution sisällä ja osa kuution ulkopuolella. Kolmiota ei voi piirtää kokonaan, koska kaikki verteksit eivät ole näkyvissä, mutta ulkopuolella olevia verteksejä ei voi jättää piirtämättäkään, koska kolmio ei olisi tällöin hyvin määritelty.
+Mielenkiintoinen tapaus on, jos osa kolmion vertekseistä on kuution sisällä ja osa kuution ulkopuolella. Kolmiota ei voi piirtää kokonaan, koska kaikki verteksit eivät ole näkyvissä, mutta ulkopuolella olevia verteksejä ei voi jättää huomiottakaan, koska verteksit määrittelevät kolmion sivut.
 
-Kolmio leikataan tällöin osiin siten, että saadut osakolmiot ovat joko kokonaan näkyvissä tai näkymättömissä. Leikkaus tehdään yksi kerrallaan kuution kullekin sivulle. Voidaan laskea pisteet, jossa kolmion sivut leikkaavat tason, ja näistä pisteistä saadaan kolmiolle uudet kärkipisteet. Tasoja kuvataan yhden tason pisteen ja tason normaalivektorin avulla.
+Kolmio leikataan tällöin osiin siten, että saadut osakolmiot ovat joko kokonaan näkyvissä tai näkymättömissä. Leikkaus toistetaan view volumen kullekin sivulle. Voidaan laskea pisteet, jossa kolmion sivut leikkaavat tason, ja näistä pisteistä saadaan kolmiolle uudet kärkipisteet. Tasoja kuvataan yhden tason pisteen ja tason normaalivektorin avulla, ja kolmion sivuja vastaavasti vektorimuodossa kärkipisteen ja sivun suuntavektorin avulla.
 
 \subsubsection {Projisoitujen kolmioiden piirto}
 
-Kuva saadaan näkyviin piirtämällä projisoidut kolmiot 2d-tasolle. Kun \textit{Rendereriltä} on saatu lista projisoiduista kolmioista image spacessa, verteksien koordinaatit muutetaan pikselikoordinaateiksi ja kolmiot piirretään $z$-järjestyksessä kaukaisimmasta lähimpään tasolle materiaali ja verteksien värit huomioiden.
+Kuva saadaan näkyviin piirtämällä projisoidut kolmiot 2d-tasolle. Kun \textit{Rendereriltä} on saatu lista projisoiduista kolmioista, jotka ovat image spacessa, verteksien koordinaatit muutetaan pikselikoordinaateiksi ja kolmiot piirretään $z$-järjestyksessä kaukaisimmasta lähimpään tasolle materiaali ja verteksien värit huomioiden.
 
 \subsection {Törmäyksentunnistus}
 
