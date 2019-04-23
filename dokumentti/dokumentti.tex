@@ -36,6 +36,10 @@ Kameraa voi liikuttaa eteen, taakse ja sivuille \texttt{W, A, S, D}-näppäimill
 
 Ohjelma on jaettu komponentteihin siten, että maailman tila, renderöinti ja ruudulle piirto ovat omina erillisinä komponentteinaan.
 
+\subsection {Maailman tila}
+
+Luokat \textit{\textbf{Vector4 ja Matrix4}} kuvaavat laskennassa käytettäviä neliulotteisia vektoreita ja matriiseja ja toteuttavat niille tarvittavat laskutoimitukset.
+
 Luokka \textit{\textbf{Vertex}} kuvaa kolmion nurkkapistettä. Kullakin \textit{Vertexillä} on:
 \begin{itemize}
 	\item sijainti object spacessa (yksittäisen kappaleen omassa koordinaatistossa)
@@ -71,6 +75,8 @@ Luokka \textit{\textbf{World}} kuvaa mallinnettavaa avaruutta ja pitää sisäll
 	\item metodi, jolla voi kysyä, onko jokin piste maailman kappaleen sisällä
 \end{itemize}
 
+\subsection {Renderöinti}
+
 Luokka \textit{\textbf{Camera}} määrittää, mistä paikasta maailmaa tarkastellaan ja mihin suuntaan katsotaan. Kamera on aina renderöitäessä oman koordinaatistonsa (view spacen) origossa osoittaen $+z$-suuntaan, muuta maailmaa liikutetaan ja käännetään tarpeen mukaan. \textit{Cameralla} on:
 \begin{itemize}
 	\item Transform, eli 4x4-matriisi (view matrix), joka kuvaa maailman \textit{Modelien} verteksit world spacesta view spaceen siten, että kamera on origossa $+z$-suunnassa
@@ -79,13 +85,15 @@ Luokka \textit{\textbf{Camera}} määrittää, mistä paikasta maailmaa tarkaste
 
 Luokka \textit{\textbf{Renderer}} ottaa renderöitäväksi \textbf{Worldin} ja kuvaa sen \textbf{Modeleiden} verteksit \textit{Cameran} view spacesta clip spaceen, eli koordinaatistoon, jossa tarkastellaan verteksien näkyvyyttä. Tämän jälkeen \textit{Renderer} selvittää, mitkä \textit{Triangleista} ovat kameran näkökentässä, hylkää sen ulkopuolella olevat, leikkaa sopivasti osittain näkyvissä olevia ja lopulta projisoi koko näkymän clip spacesta image spaceen, eli kaksiulotteiselle tasolle. \textit{Renderer} luo $z$-koordinaatin mukaan järjestetyn listan piirrettävistä \textit{Triangleista}, jotka on projisoitu perspektiiviprojektiolla $xy$-tasolle siten, että niiden $x$- ja $y$-koordinaatit on normalisoitu välille $[-1.0, 1.0]$.
 
+\subsection {Piirto ruudulle}
+
 Luokka \textit{\textbf{Screen}} kuvaa näkyvää 2D-pikseliruudukkoa, johon kuva piirretään. \textit{Screen} ottaa \textit{Rendereriltä} listan projisoiduista \textit{Triangleista}, kuvaa niiden verteksit väliltä $[-1.0, 1.0]$ pikselikoordinaatteihin ja piirtää ne näkyviin ruudulle materiaalit ja värit huomioiden.
 
-Luokat \textit{\textbf{Vector4 ja Matrix4}} kuvaavat laskennassa käytettäviä neliulotteisia vektoreita ja matriiseja ja toteuttavat niille tarvittavat laskutoimitukset.
-
-Luokka \textit{\textbf{WorldLoader}} lukee maailman tiedostosta ja luo sen pohjalta \textit{Worldin} ilmentymän.
+\subsection {Muut luokat}
 
 Luokka \textit{\textbf{Engine}} käynnistää ohjelman, luo käyttöliittymän, kuuntelee käyttäjän syötettä ja päivittää grafiikkaa ja logiikkaa tasaisin väliajoin.
+
+Luokka \textit{\textbf{WorldLoader}} lukee maailman tiedostosta ja luo sen pohjalta \textit{Worldin} ilmentymän.
 
 Luokka \textbf{Constants} sisältää ohjelmassa käytettäviä vakioita.
 
@@ -178,7 +186,7 @@ WorldLoaderilla olisi voinut ja kannattaisikin olla yksikkötestit, mutta niiden
 
 \section {Puutteet ja viat}
 
-Kolmioita piirrettäessä z-järjestys ei ole täydellinen, eli joissakin tapauksissa toisen kolmion takana oleva kolmio voi näkyä sen edessä. Tällä hetkellä järjestys on, että kolmiot, joiden kameraa lähin verteksi on kauimpana, piirretään ensin. Ongelmia tulee ainakin, jos jokin kolmio on osittain toisen edessä ja osittain toisen takana.
+Kolmioita piirrettäessä z-järjestys ei ole täydellinen, eli joissakin tapauksissa toisen kolmion takana oleva kolmio voi näkyä sen edessä. Tällä hetkellä järjestys on, että kolmiot, joiden kameraa lähin verteksi on kauimpana, piirretään ensin. Ongelmia tulee ainakin, jos jokin kolmio on osittain toisen edessä ja osittain toisen takana. Esimerkiksi lattian tekeminen on ongelmallista, jos sen päällä on seiniä.
 
 Ongelman voisi ratkaista esimerkisi z-puskurilla, jossa jokaiselle pikselille pidetään yllä pienintä z-arvoa, johon kyseiseen pikseliin on tähän mennessä piirretty. Arvon perusteella voidaan määrittää, pitääkö kyseinen pikseli ylikirjoittaa uutta kolmiota piirrettäessä. Tällöin 2d-piirto pitäisi kuitenkin toteuttaa käsin pikseli pikseliltä ScalaFX:n primitiivien sijaan.
 
@@ -187,8 +195,9 @@ WorldLoaderia ei ole testattu kunnolla: kelvollisen, ei-rajatapaustiedoston pit�
 \section {Parhaat ja heikoimmat kohdat}
 
 \begin{itemize}
-	\item[+] Ohjelma toteuttaa renderöinnin yleisemmin kuin tehtävänannossa vaadittiin: kappaleiden muodot voivat olla mielivaltaisia ja ne voivat olla missä asennossa tahansa. Kameran liike on myös vapaata.
-	\item[--] Kolmioiden väri määräytyy verteksien värien keskiarvona. Liukuvärjäys on mahdollinen, ja toteutinkin version, jossa kiinteiden kappaleiden pikselien värit määräytyvät gradienttina riippuen etäisyydestä nurkkapisteisiin, mutta piirto ScalaFX:n Canvasille osoittautui tällöin pullonkaulaksi.
+	\item[+] Ohjelma toteuttaa renderöinnin yleisemmin kuin tehtävänannossa vaadittiin: kappaleiden muodot voivat olla mielivaltaisia, ne voivat olla missä asennossa tahansa ja voivat pyöriä. Kamera voi myös liikkua vapaasti avaruudessa.
+	\item[--] Kolmioiden väri määräytyy verteksien värien keskiarvona, mikä voi näkyä hyppyinä kolmioiden värityksessä. Oikeasti värin pitäisi määräytyä liukuvasti riippuen etäisyydestä kolmion vertekseihin. Toteutinkin version, jossa kiinteiden kappaleiden pikselien värit määräytyvät gradienttina, mutta piirto ScalaFX:n Canvasille osoittautui tällöin pullonkaulaksi.
+	\item[--] Kappaleiden mahdollista liikettä tai pyörimistä ei pysty määrittelemään kappalekohtaisesti \texttt{World}-tiedostossa, ja maailman ensimmäinen kappale on tällä hetkellä kovakoodattu pyöriväksi demotarkoituksia varten \textit{Engine}-luokassa.
 \end{itemize}
 
 
@@ -209,10 +218,20 @@ Toteutusjärjestyksessä oli myös pieniä muutoksia. Oikea järjestys oli
 	\item (14.04) Törmäyksentunnistus
 \end{enumerate}
 
-eli ohjelman sai käyntiin suunniteltua myöhemmin.
+eli käynnistysohjelma toteutettiin suunniteltua myöhemmin.
 
 \section {Kokonaisarvio}
 
+
 \section {Viitteet}
+
+\begin{itemize}
+	\item Jaakko Lehtinen. "Understanding View Frustums and Homogenous Coordinates". 2009.
+	\item Jaakko Lehtinen. "Coordinate Transformations \& Homogenous Coordinates". 2018. Kalvot kurssilta CS-C3100 Computer Graphics.
+	\item http://www.opengl-tutorial.org/beginners-tutorials/tutorial-3-matrices/
+	\item https://www.gabrielgambetta.com/computer-graphics-from-scratch/clipping.html
+	\item http://geomalgorithms.com/a05-\_intersect-1.html
+	\item Scala documentation https://www.scala-lang.org/api/current/index.html
+\end{itemize}
 
 \end {document}
