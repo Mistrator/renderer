@@ -24,7 +24,7 @@
 
 \section {Yleiskuvaus}
 
-Toteutin ohjelman, jolla voi renderöidä reaaliajassa kolmioista koostuvia maailmaan sijoitettuja kolmiulotteisia malleja. Mallit voivat olla mielivaltaisia, eivätkä ne ole rajoittuneita esimerkiksi pelkästään suorakulmaisiin seiniin. Mallin ympärillä voi liikkua vapaasti ja kameraa voi kääntää mielivaltaiseen suuntaan. Projektin taso on mielestäni vaativa.
+Toteutin ohjelman, jolla voi renderöidä ja visualisoida reaaliajassa kolmioista koostuvia maailmaan sijoitettuja kolmiulotteisia malleja. Mallit voivat olla mielivaltaisia, eivätkä ne ole rajoittuneita esimerkiksi pelkästään suorakulmaisiin seiniin. Mallin ympärillä voi liikkua vapaasti ja kameraa voi kääntää mielivaltaiseen suuntaan. Projektin taso on mielestäni vaativa.
 
 \section {Käyttöohje}
 
@@ -202,7 +202,7 @@ WorldLoaderilla olisi voinut ja kannattaisikin olla yksikkötestit, mutta niiden
 
 \section {Puutteet ja viat}
 
-Kolmioita piirrettäessä z-järjestys ei ole täydellinen, eli joissakin tapauksissa toisen kolmion takana oleva kolmio voi näkyä sen edessä. Tällä hetkellä järjestys on, että kolmiot, joiden kameraa lähin verteksi on kauimpana, piirretään ensin. Ongelmia tulee ainakin, jos jokin kolmio on osittain toisen edessä ja osittain toisen takana. Esimerkiksi lattian tekeminen on ongelmallista, jos sen päällä on seiniä.
+Kolmioita piirrettäessä z-järjestys ei ole täydellinen, eli joissakin tapauksissa toisen kolmion takana oleva kolmio voi näkyä sen edessä. Tällä hetkellä järjestys on, että kolmiot, joiden kameraa lähin verteksi on kauimpana, piirretään ensin. Ongelmia tulee ainakin, jos jokin kolmio on osittain toisen edessä ja osittain toisen takana. Esimerkiksi lattian piirtäminen on ongelmallista, jos sen päällä on seiniä.
 
 Ongelman voisi ratkaista esimerkisi z-puskurilla, jossa jokaiselle pikselille pidetään yllä pienintä z-arvoa, johon kyseiseen pikseliin on tähän mennessä piirretty. Arvon perusteella voidaan määrittää, pitääkö kyseinen pikseli ylikirjoittaa uutta kolmiota piirrettäessä. Tällöin 2d-piirto pitäisi kuitenkin toteuttaa käsin pikseli pikseliltä ScalaFX:n primitiivien sijaan.
 
@@ -242,9 +242,7 @@ Aikataulu toteutui melko lailla suunnitellusti. Jotkin vaiheet, kuten kolmioiden
 
 Mielestäni projekti onnistui oikein hyvin. Tehtävänannon vaatimukset täyttyvät ja ohjelma toteuttaa yleisemmän version renderöinnistä kuin vaadittiin. Tulevaisuudessa ohjelmaan voisi toteuttaa vielä z-puskuroinnin, jotta kolmiot piirtyisivät oikeassa järjestyksessä myös haastavissa tapauksissa.
 
-Ohjelma on helposti muokattavissa ja laajennettavissa: maailman esitystapa, renderöinti ja piirto ruudulle ovat omia, erillisiä komponenttejaan, ja niitä voisi periaatteessa hyödyntää erillisinä sellaisenaan jossakin toisessa ohjelmassa.
-
-
+Ohjelma on helposti muokattavissa ja laajennettavissa: maailman esitystapa, renderöinti ja piirto ruudulle ovat omia, erillisiä komponenttejaan, ja niitä voisi periaatteessa hyödyntää erillisinä sellaisenaan jossakin toisessa ohjelmassa. Ohjelman rakenne toimii tällaisenaan, enkä heti näe tarvetta muokata luokkajakoa.
 
 \section {Viitteet}
 
